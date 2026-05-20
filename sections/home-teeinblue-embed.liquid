@@ -1,0 +1,267 @@
+{% comment %}
+  Home Teeinblue Embed
+  Extracts Teeinblue customizer from the product page and displays it on the homepage.
+  Uses full HTML fetch approach to bypass Sections Rendering API limitations with app blocks.
+{% endcomment %}
+
+{% liquid
+  assign show_title = section.settings.show_title
+  assign title = section.settings.title
+  assign product_handle = section.settings.product_handle | default: ''
+  assign extraction_mode = section.settings.extraction_mode | default: 'auto'
+  assign custom_selector = section.settings.custom_selector | default: ''
+  assign loading_text = section.settings.loading_text | default: 'Loading customization...'
+  assign error_text = section.settings.error_text | default: 'Could not load customizer.'
+  assign debug_mode = section.settings.debug_mode
+%}
+
+<div class="home-teeinblue-wrapper section section--{{ section.settings.section_width | default: 'page-width' }} color-{{ section.settings.color_scheme }}">
+  {% if show_title and title != blank %}
+    <h2 class="home-teeinblue-heading">{{ title }}</h2>
+  {% endif %}
+
+  <div
+    class="home-teeinblue-container"
+    data-home-teeinblue-container
+    data-product-handle="{{ product_handle | escape }}"
+    data-extraction-mode="{{ extraction_mode | escape }}"
+    data-custom-selector="{{ custom_selector | escape }}"
+    data-loading-text="{{ loading_text | escape }}"
+    data-error-text="{{ error_text | escape }}"
+    data-debug="{{ debug_mode }}"
+    aria-live="polite"
+    aria-busy="true"
+  >
+    <div class="home-teeinblue-loading" aria-label="{{ loading_text }}">
+      <span class="home-teeinblue-loading__spinner"></span>
+      <span class="home-teeinblue-loading__text">{{ loading_text }}</span>
+    </div>
+  </div>
+
+  {% if product_handle == blank %}
+    <p class="home-teeinblue-notice">
+      <strong>Setup required:</strong> Enter a product handle in the section settings.
+    </p>
+  {% endif %}
+</div>
+
+<script src="{{ 'home-teeinblue-embed.js' | asset_url }}" defer></script>
+
+{% stylesheet %}
+  .home-teeinblue-wrapper {
+    position: relative;
+    padding-block: var(--padding-lg, 32px);
+  }
+
+  .section--page-width {
+    max-width: var(--page-width, 1200px);
+    margin-inline: auto;
+    padding-inline: var(--padding-md, 16px);
+  }
+
+  .home-teeinblue-heading {
+    margin: 0 0 var(--padding-md, 24px);
+    text-align: left;
+  }
+
+  .home-teeinblue-container {
+    position: relative;
+    min-height: 200px;
+  }
+
+  .home-teeinblue-container[aria-busy="false"] {
+    min-height: auto;
+  }
+
+  .home-teeinblue-loading {
+    display: flex;
+    align-items: center;
+    gap: var(--padding-sm, 12px);
+    color: currentColor;
+    opacity: 0.7;
+  }
+
+  .home-teeinblue-loading__spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: home-teeinblue-spin 0.8s linear infinite;
+  }
+
+  @keyframes home-teeinblue-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .home-teeinblue-error {
+    padding: var(--padding-md, 16px);
+    background: rgba(var(--color-foreground-rgb, 0 0 0) / 0.05);
+    border-radius: var(--style-border-radius, 4px);
+  }
+
+  .home-teeinblue-error a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  .home-teeinblue-debug {
+    margin-top: var(--padding-sm, 12px);
+    padding: var(--padding-sm, 12px);
+    font-family: monospace;
+    font-size: 11px;
+    background: rgba(var(--color-foreground-rgb, 0 0 0) / 0.03);
+    border-radius: var(--style-border-radius, 4px);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .home-teeinblue-notice {
+    margin-top: var(--padding-md, 16px);
+    padding: var(--padding-md, 16px);
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: var(--style-border-radius, 4px);
+    color: #856404;
+  }
+
+  /* Isolation styles to prevent CSS conflicts */
+  .home-teeinblue-injected {
+    /* Reset some inherited styles that might conflict */
+  }
+
+  /* Ensure injected product forms work correctly */
+  .home-teeinblue-injected form {
+    margin: 0;
+  }
+
+  /* Force Teeinblue to be visible on homepage */
+  /* Teeinblue sets display:none when not on /products/* URL - override this */
+  .home-teeinblue-injected #teeinblue-form,
+  .home-teeinblue-injected [id*="teeinblue"],
+  .home-teeinblue-injected .shopify-app-block[id*="teeinblue"],
+  .home-teeinblue-injected .teeinblue-loading-container,
+  .home-teeinblue-injected [class*="teeinblue"] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Ensure Teeinblue container has proper dimensions */
+  .home-teeinblue-injected .teeinblue-personalization,
+  .home-teeinblue-injected .teeinblue-customizer,
+  .home-teeinblue-injected .teeinblue-loading-container {
+    min-height: auto !important;
+    height: auto !important;
+    width: auto !important;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Home Teeinblue Embed",
+  "tag": "section",
+  "class": "home-teeinblue-embed section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Customize Your Product"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show heading",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "product_handle",
+      "label": "Product handle",
+      "info": "The URL handle of the product with Teeinblue customizer (e.g., 'custom-logo-shirt')."
+    },
+    {
+      "type": "header",
+      "content": "Extraction"
+    },
+    {
+      "type": "select",
+      "id": "extraction_mode",
+      "label": "Extraction mode",
+      "default": "auto",
+      "options": [
+        { "value": "auto", "label": "Auto-detect Teeinblue" },
+        { "value": "app-block", "label": "App block only" },
+        { "value": "product-section", "label": "Full product section" },
+        { "value": "custom", "label": "Custom selector" }
+      ],
+      "info": "How to extract content from the product page."
+    },
+    {
+      "type": "text",
+      "id": "custom_selector",
+      "label": "Custom CSS selector",
+      "info": "Only used when extraction mode is 'Custom selector'."
+    },
+    {
+      "type": "header",
+      "content": "Messages"
+    },
+    {
+      "type": "text",
+      "id": "loading_text",
+      "label": "Loading text",
+      "default": "Loading customization..."
+    },
+    {
+      "type": "text",
+      "id": "error_text",
+      "label": "Error text",
+      "default": "Could not load customizer."
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        { "value": "full-width", "label": "Full width" },
+        { "value": "page-width", "label": "Page width" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Developer"
+    },
+    {
+      "type": "checkbox",
+      "id": "debug_mode",
+      "label": "Enable debug logging",
+      "default": false,
+      "info": "Shows detailed extraction info in browser console and on errors."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Teeinblue Embed",
+      "category": "Apps"
+    }
+  ]
+}
+{% endschema %}

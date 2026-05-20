@@ -1,0 +1,496 @@
+
+{% liquid
+  assign product = block.settings.product
+  assign variant = product.selected_or_first_available_variant
+
+  assign thumbnail = block.settings.thumbnail_override
+  if thumbnail == blank
+    assign thumbnail = variant.featured_image | default: product.featured_image
+  endif
+
+  assign card_url = product.url
+  if variant.url
+    assign card_url = variant.url
+  endif
+
+  assign add_label = block.settings.button_label
+  if add_label == blank
+    assign add_label = 'TOEVOEGEN'
+  endif
+
+  assign variant_label = block.settings.variant_label
+  if variant_label == blank
+    assign variant_label = variant.title | upcase
+    if variant_label == 'DEFAULT TITLE'
+      assign variant_label = ''
+    endif
+  endif
+
+  assign can_add_to_cart = false
+  if variant and variant.available
+    assign can_add_to_cart = true
+  endif
+
+  assign card_id = 'custom-card-' | append: block.id
+  assign form_id = 'CustomCard-Form-' | append: block.id
+-%}
+
+<div
+  class="custom-product-card{% if product == blank %} custom-product-card--placeholder{% endif %}"
+  id="{{ card_id }}"
+  style="
+    --custom-card-radius: {{ block.settings.card_radius }}px;
+    --custom-card-bg: {{ block.settings.card_background }};
+    --custom-card-fg: {{ block.settings.card_foreground }};
+    --custom-card-button-bg: {{ block.settings.button_background }};
+    --custom-card-button-fg: {{ block.settings.button_foreground }};
+    --custom-card-badge-bg: {{ block.settings.badge_background }};
+    --custom-card-badge-fg: {{ block.settings.badge_foreground }};
+    --custom-card-icon-bg: {{ block.settings.variant_icon_background }};
+  "
+  {{ block.shopify_attributes }}
+>
+  {%- if product != blank -%}
+    <a
+      href="{{ card_url }}"
+      class="custom-product-card__link"
+      aria-label="{{ product.title | escape }}"
+    ></a>
+  {%- endif -%}
+
+  {%- if block.settings.show_badge and block.settings.badge_text != blank -%}
+    <span class="custom-product-card__badge">
+      {{- block.settings.badge_text -}}
+    </span>
+  {%- endif -%}
+
+  <div class="custom-product-card__media">
+    {%- if thumbnail != blank -%}
+      {{
+        thumbnail
+        | image_url: width: 800
+        | image_tag:
+          loading: 'lazy',
+          widths: '300, 500, 800, 1200',
+          sizes: '(min-width: 1100px) 22vw, (min-width: 750px) 33vw, 80vw',
+          class: 'custom-product-card__image',
+          alt: product.title
+      }}
+    {%- else -%}
+      {{ 'product-apparel-1' | placeholder_svg_tag: 'custom-product-card__image custom-product-card__image--placeholder' }}
+    {%- endif -%}
+  </div>
+
+  <div class="custom-product-card__body">
+    {%- if block.settings.variant_icon != blank or variant_label != blank -%}
+      <div class="custom-product-card__variant">
+        {%- if block.settings.variant_icon != blank -%}
+          <span class="custom-product-card__variant-icon">
+            {{
+              block.settings.variant_icon
+              | image_url: width: 60
+              | image_tag:
+                loading: 'lazy',
+                widths: '30, 60, 90',
+                sizes: '30px',
+                alt: ''
+            }}
+          </span>
+        {%- endif -%}
+        {%- if variant_label != blank -%}
+          <span class="custom-product-card__variant-label">{{ variant_label }}</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <h3 class="custom-product-card__title">
+      {{- product.title | default: 'Product title' -}}
+    </h3>
+
+    {%- if block.settings.tagline != blank -%}
+      <p class="custom-product-card__tagline">{{ block.settings.tagline }}</p>
+    {%- endif -%}
+
+    <p class="custom-product-card__price">
+      {%- if product != blank -%}
+        {{- variant.price | money -}}
+      {%- else -%}
+        {{- 1999 | money -}}
+      {%- endif -%}
+    </p>
+  </div>
+
+  {%- if block.settings.show_button -%}
+    {%- if product != blank -%}
+      <product-form-component
+        data-section-id="{{ section.id }}"
+        data-product-id="{{ product.id }}"
+        on:submit="/handleSubmit"
+        class="custom-product-card__form"
+      >
+        <div
+          class="visually-hidden"
+          aria-live="assertive"
+          role="status"
+          aria-atomic="true"
+          ref="liveRegion"
+        ></div>
+        {%- form 'product', product, id: form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+          <input
+            type="hidden"
+            name="id"
+            ref="variantId"
+            value="{{ variant.id }}"
+            {% if can_add_to_cart == false %}disabled{% endif %}
+          >
+          <input type="hidden" name="quantity" value="1">
+          <button
+            type="submit"
+            name="add"
+            ref="addToCartButton"
+            on:click="/handleClick"
+            class="custom-product-card__button"
+            {% unless can_add_to_cart %}disabled{% endunless %}
+          >
+            <span class="custom-product-card__button-label">{{ add_label }}</span>
+            <span aria-hidden="true" class="custom-product-card__button-icon">
+              {{- 'icon-cart.svg' | inline_asset_content -}}
+            </span>
+          </button>
+        {%- endform -%}
+      </product-form-component>
+    {%- else -%}
+      <button class="custom-product-card__button" type="button" disabled>
+        <span class="custom-product-card__button-label">{{ add_label }}</span>
+        <span aria-hidden="true" class="custom-product-card__button-icon">
+          {{- 'icon-cart.svg' | inline_asset_content -}}
+        </span>
+      </button>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .custom-product-card {
+    --custom-card-radius: 24px;
+    --custom-card-bg: #f3f3f3;
+    --custom-card-fg: #0c1a3a;
+    --custom-card-button-bg: #0c1a3a;
+    --custom-card-button-fg: #ffffff;
+    --custom-card-badge-bg: #ff7a1a;
+    --custom-card-badge-fg: #ffffff;
+    --custom-card-icon-bg: transparent;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--custom-card-bg);
+    color: var(--custom-card-fg);
+    border-radius: var(--custom-card-radius);
+    overflow: hidden;
+    isolation: isolate;
+    height: 100%;
+  }
+
+  .custom-product-card__link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .custom-product-card__badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: var(--custom-card-badge-bg);
+    color: var(--custom-card-badge-fg);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 999px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .custom-product-card__media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 36px 24px 16px;
+    aspect-ratio: 1 / 1;
+    background: transparent;
+  }
+
+  .custom-product-card__image {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .custom-product-card__image--placeholder {
+    width: 60%;
+    opacity: 0.4;
+  }
+
+  .custom-product-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 20px 16px;
+  }
+
+  .custom-product-card__variant {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .custom-product-card__variant-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--custom-card-icon-bg);
+    flex-shrink: 0;
+  }
+
+  .custom-product-card__variant-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .custom-product-card__variant-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--custom-card-fg);
+    opacity: 0.85;
+  }
+
+  .custom-product-card__title {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--custom-card-fg);
+  }
+
+  .custom-product-card__tagline {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.3;
+    opacity: 0.7;
+  }
+
+  .custom-product-card__price {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 4px 0 0;
+    color: var(--custom-card-fg);
+  }
+
+  .custom-product-card__form {
+    margin-top: auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .custom-product-card__button {
+    width: 100%;
+    border: none;
+    background: var(--custom-card-button-bg);
+    color: var(--custom-card-button-fg);
+    padding: 16px 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    cursor: pointer;
+    transition: filter 0.2s ease, transform 0.15s ease;
+  }
+
+  .custom-product-card__button:hover:not([disabled]) {
+    filter: brightness(1.12);
+  }
+
+  .custom-product-card__button:active:not([disabled]) {
+    transform: translateY(1px);
+  }
+
+  .custom-product-card__button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .custom-product-card__button-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+  }
+
+  .custom-product-card__button-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Custom product card",
+  "tag": null,
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "image_picker",
+      "id": "thumbnail_override",
+      "label": "Custom thumbnail",
+      "info": "Replaces the product image. Use this to show a styled preview (e.g. shirt with logo)."
+    },
+    {
+      "type": "header",
+      "content": "Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge label",
+      "default": "NEW"
+    },
+    {
+      "type": "color",
+      "id": "badge_background",
+      "label": "Badge background",
+      "default": "#ff7a1a"
+    },
+    {
+      "type": "color",
+      "id": "badge_foreground",
+      "label": "Badge text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Variant indicator"
+    },
+    {
+      "type": "image_picker",
+      "id": "variant_icon",
+      "label": "Variant icon (SVG / PNG)",
+      "info": "Small circle icon shown above the product name."
+    },
+    {
+      "type": "color",
+      "id": "variant_icon_background",
+      "label": "Variant icon background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "variant_label",
+      "label": "Variant label",
+      "info": "Leave empty to use the variant title."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Short tagline",
+      "info": "Optional one-liner shown under the title (e.g. 100% cotton • Easy print)."
+    },
+    {
+      "type": "header",
+      "content": "Add to cart button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Show add to cart button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "TOEVOEGEN"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "color",
+      "id": "button_foreground",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Card appearance"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "card_foreground",
+      "label": "Card text color",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom product card",
+      "settings": {
+        "badge_text": "NEW",
+        "button_label": "TOEVOEGEN"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,68 @@
+{%- liquid
+  assign rip_height = settings.rip_height | default: 12
+  assign rip_angle = settings.rip_angle | default: 0
+  assign rip_scale = settings.rip_scale | default: 100
+  assign rip_offset = settings.rip_offset | default: -40
+  assign rip_flip = settings.rip_flip_horizontal
+  assign rip_image = settings.rip_image_url | default: 'https://cdn.shopify.com/s/files/1/0975/9247/5912/files/scheurlijn_silver.svg?v=1767843076'
+-%}
+
+<div
+  class="hero-rip-block"
+  style="
+    --rip-height: {{ rip_height }}%;
+    --rip-angle: {{ rip_angle }}deg;
+    --rip-scale: {{ rip_scale }};
+    --rip-offset: {{ rip_offset }}px;
+    --rip-flip: {% if rip_flip %}-1{% else %}1{% endif %};
+    {% if settings.rip_position == 'top' %}
+      top: 0;
+      bottom: auto;
+    {% endif %}
+  "
+>
+  <img
+    class="hero-rip-block__img"
+    src="{{ rip_image }}"
+    alt=""
+    width="1200"
+    height="146"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+  >
+</div>
+
+{% style %}
+  .hero-rip-block {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    height: var(--rip-height, 12%);
+    transform-origin: 50% 100%;
+    transform: translateY(var(--rip-offset, 0px)) rotate(var(--rip-angle, 0deg));
+    pointer-events: none;
+    z-index: var(--layer-overlay);
+    overflow: visible;
+  }
+
+  .hero-rip-block__img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    transform-origin: 50% 100%;
+    transform: scaleX(var(--rip-flip, 1)) scale(calc(var(--rip-scale, 100) / 100));
+    object-fit: cover;
+    object-position: center;
+  }
+
+  @media screen and (max-width: 749px) {
+    .hero-rip-block {
+      height: calc(var(--rip-height, 12%) * 1.15);
+    }
+  }
+{% endstyle %}
+

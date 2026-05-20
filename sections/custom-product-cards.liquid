@@ -1,0 +1,191 @@
+
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+
+<div
+  class="
+    custom-product-cards-section
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    spacing-style
+  "
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    --custom-grid-columns: {{ section.settings.columns }};
+    --custom-grid-columns-mobile: {{ section.settings.mobile_columns }};
+    --custom-grid-gap: {{ section.settings.columns_gap }}px;
+    --custom-grid-row-gap: {{ section.settings.rows_gap }}px;
+  "
+>
+  {%- if section.settings.heading != blank -%}
+    <h2 class="custom-product-cards-section__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <div class="custom-product-cards-grid">
+    {%- content_for 'blocks' -%}
+  </div>
+
+  {%- if section.blocks.size == 0 -%}
+    <p class="custom-product-cards-section__empty">
+      Add a "Custom product card" block to display products here.
+    </p>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .custom-product-cards-section {
+    container-type: inline-size;
+  }
+
+  .custom-product-cards-section__heading {
+    margin: 0 0 24px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+
+  .custom-product-cards-section__empty {
+    text-align: center;
+    opacity: 0.6;
+    padding: 32px;
+  }
+
+  .custom-product-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--custom-grid-columns-mobile, 2), minmax(0, 1fr));
+    gap: var(--custom-grid-row-gap, 16px) var(--custom-grid-gap, 16px);
+  }
+
+  @media (min-width: 750px) {
+    .custom-product-cards-grid {
+      grid-template-columns: repeat(var(--custom-grid-columns, 4), minmax(0, 1fr));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Custom product cards",
+  "tag": "section",
+  "class": "custom-product-cards-section-wrapper section-wrapper",
+  "blocks": [
+    {
+      "type": "custom-product-card"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Columns (mobile)",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "columns_gap",
+      "label": "Horizontal gap",
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "rows_gap",
+      "label": "Vertical gap",
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom product cards",
+      "category": "Product",
+      "settings": {
+        "heading": "",
+        "columns": 4,
+        "mobile_columns": "2",
+        "columns_gap": 16,
+        "rows_gap": 16
+      },
+      "blocks": [
+        { "type": "custom-product-card" },
+        { "type": "custom-product-card" },
+        { "type": "custom-product-card" },
+        { "type": "custom-product-card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

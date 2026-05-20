@@ -1,0 +1,157 @@
+{%- liquid
+  assign rip_height = section.settings.rip_height | default: 12
+  assign rip_angle = section.settings.rip_angle | default: 0
+  assign rip_scale = section.settings.rip_scale | default: 100
+  assign rip_offset = section.settings.rip_offset | default: 0
+  assign rip_flip = section.settings.flip_horizontal
+  assign rip_overlap = section.settings.overlap_previous | default: -60
+  assign rip_image = section.settings.image_url | default: 'https://cdn.shopify.com/s/files/1/0975/9247/5912/files/scheurlijn_silver.svg?v=1767843076'
+-%}
+-%}
+
+<section
+  class="ripped-edge-section"
+  data-section-id="{{ section.id }}"
+  data-section-type="ripped-edge"
+  style="--rip-overlap: {{ rip_overlap }}px;"
+>
+  <div
+    class="ripped-edge"
+    style="
+      --rip-height: {{ rip_height }}%;
+      --rip-angle: {{ rip_angle }}deg;
+      --rip-scale: {{ rip_scale }};
+      --rip-offset: {{ rip_offset }}px;
+      --rip-flip: {% if rip_flip %}-1{% else %}1{% endif %};
+    "
+  >
+    <img
+      class="ripped-edge__img"
+      src="{{ rip_image }}"
+      alt=""
+      width="1200"
+      height="146"
+      loading="lazy"
+      decoding="async"
+      fetchpriority="low"
+    >
+  </div>
+</section>
+
+{% stylesheet %}
+  .ripped-edge-section {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    margin-top: var(--rip-overlap, -60px);
+    overflow: visible;
+  }
+
+  .ripped-edge {
+    position: relative;
+    left: 50%;
+    width: 100vw;
+    max-width: none;
+    height: var(--rip-height, 12vh);
+    transform-origin: 50% 100%;
+    transform: translate(-50%, var(--rip-offset, 0px)) rotate(var(--rip-angle, 0deg));
+    pointer-events: none;
+    overflow: visible;
+    filter: drop-shadow(0 6px 12px rgb(0 0 0 / 0.12));
+  }
+
+  .ripped-edge__img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    transform-origin: 50% 100%;
+    transform: scaleX(var(--rip-flip, 1)) scale(calc(var(--rip-scale, 100) / 100));
+    object-fit: cover;
+    object-position: center;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ripped-edge {
+      height: calc(var(--rip-height, 12vh) * 1.15);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Ripped paper edge",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "url",
+      "id": "image_url",
+      "label": "SVG URL",
+      "info": "Leave blank to use the uploaded scheurlijn_silver.svg"
+    },
+    {
+      "type": "range",
+      "id": "rip_height",
+      "label": "Height (% of viewport)",
+      "min": 4,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "rip_angle",
+      "label": "Angle (deg)",
+      "min": -15,
+      "max": 15,
+      "step": 1,
+      "unit": "°",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "rip_scale",
+      "label": "Scale (%)",
+      "min": 50,
+      "max": 150,
+      "step": 1,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "rip_offset",
+      "label": "Vertical offset (px)",
+      "min": -120,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "overlap_previous",
+      "label": "Overlap previous section (px)",
+      "min": -200,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": -60,
+      "info": "Negative pulls the rip upward to hug the section above."
+    },
+    {
+      "type": "checkbox",
+      "id": "flip_horizontal",
+      "label": "Flip horizontally",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ripped paper edge",
+      "category": "Banners"
+    }
+  ]
+}
+{% endschema %}
+
