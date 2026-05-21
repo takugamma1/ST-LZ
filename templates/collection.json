@@ -12,8 +12,17 @@
     "hero_bqdwHG": {
       "type": "hero",
       "blocks": {
+        "custom_liquid_XWMPkV": {
+          "type": "custom-liquid",
+          "name": "t:names.custom_liquid",
+          "settings": {
+            "custom_liquid": "{% render 'outlined-heading', text: 'HORECA COLLECTION', color: '#071F41', size: 'xl' %}"
+          },
+          "blocks": {}
+        },
         "text_NG3bQm": {
           "type": "text",
+          "disabled": true,
           "settings": {
             "text": "<h1>HORECA COLLECTION</h1>",
             "width": "fit-content",
@@ -39,6 +48,7 @@
         }
       },
       "block_order": [
+        "custom_liquid_XWMPkV",
         "text_NG3bQm"
       ],
       "name": "t:names.hero",
