@@ -1,0 +1,46 @@
+
+{% liquid
+  assign item_id = 'faq-pill-item-' | append: block.id
+-%}
+
+<details class="faq-pill__item" id="{{ item_id }}" {{ block.shopify_attributes }}>
+  <summary class="faq-pill__question">
+    <span class="faq-pill__question-text">{{ block.settings.question }}</span>
+    <span class="faq-pill__question-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+  </summary>
+  <div class="faq-pill__answer-outer">
+    <div class="faq-pill__answer-inner">
+      {{ block.settings.answer }}
+    </div>
+  </div>
+</details>
+
+{% schema %}
+{
+  "name": "FAQ pill item",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "question",
+      "label": "Question",
+      "default": "Wat is het retourbeleid?"
+    },
+    {
+      "type": "richtext",
+      "id": "answer",
+      "label": "Answer",
+      "default": "<p>Ons doel is dat elke klant volledig tevreden is met zijn aankoop. Als dit niet het geval is, laat het ons dan weten.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ pill item"
+    }
+  ]
+}
+{% endschema %}
