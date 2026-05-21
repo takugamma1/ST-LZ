@@ -1,0 +1,64 @@
+{%- doc -%}
+  Renders an outlined (stroked) heading. Reusable across sections.
+
+  @param {string} text - The heading text
+  @param {string} [color] - Stroke color (default #ffffff)
+  @param {number} [stroke_width] - Stroke width in px (default 2)
+  @param {string} [size] - One of: xs, sm, md, lg, xl, xxl (default xl)
+  @param {string} [align] - left | center | right (default center)
+  @param {string} [tag] - h1 | h2 | h3 | div (default h2)
+  @param {boolean} [solid] - If true, fills the text instead of just stroking
+  @param {string} [solid_color] - Fill color when solid=true (default #ffffff)
+  @param {string} [class] - Extra classes
+{%- enddoc -%}
+
+{%- liquid
+  assign size = size | default: 'xl'
+  assign align = align | default: 'center'
+  assign tag = tag | default: 'h2'
+  assign color = color | default: '#ffffff'
+  assign stroke_width = stroke_width | default: 2
+  assign solid = solid | default: false
+  assign solid_color = solid_color | default: '#ffffff'
+  assign extra_class = class | default: ''
+-%}
+
+<{{ tag }}
+  class="outlined-heading outlined-heading--{{ size }} outlined-heading--align-{{ align }}{% if solid %} outlined-heading--solid{% endif %} {{ extra_class }}"
+  style="
+    --outlined-color: {{ color }};
+    --outlined-stroke: {{ stroke_width }}px;
+    --outlined-fill: {{ solid_color }};
+  "
+>
+  {{ text }}
+</{{ tag }}>
+
+{% stylesheet %}
+  .outlined-heading {
+    margin: 0;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: transparent;
+    -webkit-text-stroke: var(--outlined-stroke, 2px) var(--outlined-color, #ffffff);
+    paint-order: stroke fill;
+  }
+
+  .outlined-heading--solid {
+    color: var(--outlined-fill, #ffffff);
+    -webkit-text-stroke: 0;
+  }
+
+  .outlined-heading--align-left { text-align: left; }
+  .outlined-heading--align-center { text-align: center; }
+  .outlined-heading--align-right { text-align: right; }
+
+  .outlined-heading--xs  { font-size: clamp(1.25rem, 3cqi, 1.75rem); }
+  .outlined-heading--sm  { font-size: clamp(1.5rem, 4cqi, 2.5rem); }
+  .outlined-heading--md  { font-size: clamp(2rem, 5.5cqi, 3.5rem); }
+  .outlined-heading--lg  { font-size: clamp(2.5rem, 7cqi, 4.5rem); }
+  .outlined-heading--xl  { font-size: clamp(3rem, 9cqi, 6rem); }
+  .outlined-heading--xxl { font-size: clamp(4rem, 12cqi, 8rem); }
+{% endstylesheet %}

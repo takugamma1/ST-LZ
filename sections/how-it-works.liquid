@@ -1,0 +1,329 @@
+
+<div class="section-background hiw-section__background" style="background: {{ section.settings.section_bg_color }};"></div>
+
+<div
+  class="
+    hiw-section
+    section
+    section--{{ section.settings.section_width }}
+    spacing-style
+  "
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    --hiw-fg: {{ section.settings.text_color }};
+    --hiw-radius: {{ section.settings.card_radius }}px;
+    --hiw-columns: {{ section.settings.columns_desktop }};
+    --hiw-columns-mobile: {{ section.settings.columns_mobile }};
+    --hiw-gap: {{ section.settings.card_gap }}px;
+  "
+>
+  <div class="hiw-section__inner">
+    {%- if section.settings.heading != blank -%}
+      {%- render 'outlined-heading',
+        text: section.settings.heading,
+        color: section.settings.heading_color,
+        stroke_width: section.settings.heading_stroke,
+        size: section.settings.heading_size,
+        align: 'center',
+        tag: 'h2',
+        solid: section.settings.heading_solid,
+        solid_color: section.settings.heading_color
+      -%}
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="hiw-section__subheading">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <div class="hiw-grid">
+      {%- content_for 'blocks' -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .hiw-section {
+    position: relative;
+    color: var(--hiw-fg, #0c1a3a);
+  }
+
+  .hiw-section__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .hiw-section__subheading {
+    margin: 0;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--hiw-fg, #0c1a3a);
+    opacity: 0.8;
+    max-width: 60ch;
+  }
+
+  /* Grid: mobile uses columns_mobile, desktop uses columns_desktop */
+  .hiw-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--hiw-columns-mobile, 2), minmax(0, 1fr));
+    gap: var(--hiw-gap, 16px);
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  @media (min-width: 750px) {
+    .hiw-grid {
+      grid-template-columns: repeat(var(--hiw-columns, 4), minmax(0, 1fr));
+    }
+  }
+
+  /* --- Step card ------------------------------------------------ */
+
+  .hiw-step {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--hiw-radius, 18px);
+    overflow: hidden;
+    background:
+      linear-gradient(
+        to bottom,
+        var(--hiw-step-tint, #f3f5f8) 0%,
+        color-mix(in srgb, var(--hiw-step-tint, #f3f5f8) 35%, #ffffff) 100%
+      );
+    height: 100%;
+  }
+
+  .hiw-step__media {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: rgb(0 0 0 / 0.04);
+  }
+
+  .hiw-step__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hiw-step__image--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(2rem, 8cqi, 4rem);
+    font-weight: 900;
+    color: var(--hiw-fg, #0c1a3a);
+    opacity: 0.25;
+  }
+
+  .hiw-step__body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 16px 20px;
+    text-align: left;
+  }
+
+  .hiw-step__number {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    color: var(--hiw-fg, #0c1a3a);
+  }
+
+  .hiw-step__title {
+    margin: 0;
+    font-size: clamp(0.95rem, 1.6cqi, 1.15rem);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--hiw-fg, #0c1a3a);
+    line-height: 1.2;
+  }
+
+  .hiw-step__description {
+    margin: 4px 0 0;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: var(--hiw-fg, #0c1a3a);
+    opacity: 0.78;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "How it works",
+  "tag": "section",
+  "class": "hiw-section-wrapper section-wrapper",
+  "blocks": [
+    {
+      "type": "how-it-works-step"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading text",
+      "default": "HOW IT WORKS"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "xs", "label": "Extra small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" },
+        { "value": "xl", "label": "Extra large" }
+      ],
+      "default": "md"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_solid",
+      "label": "Solid (filled) heading instead of outlined",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "heading_stroke",
+      "label": "Outline thickness",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Vier eenvoudige stappen om je gepersonaliseerde shirt te bestellen."
+    },
+    {
+      "type": "header",
+      "content": "Grid layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns (mobile)",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Gap between cards",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Section appearance"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "How it works",
+      "category": "Text",
+      "blocks": [
+        { "type": "how-it-works-step", "settings": { "title": "Kies je product", "description": "Selecteer een shirt, tank top of hoodie uit het assortiment.", "tint_color": "#f5e7d8" } },
+        { "type": "how-it-works-step", "settings": { "title": "Upload je logo", "description": "Voeg je bedrijfslogo toe in onze editor en bekijk een preview.", "tint_color": "#e0e9f5" } },
+        { "type": "how-it-works-step", "settings": { "title": "Wij printen het", "description": "We printen je ontwerp op de gekozen producten met zorg en precisie.", "tint_color": "#e3f0e0" } },
+        { "type": "how-it-works-step", "settings": { "title": "Geleverd aan huis", "description": "Binnen enkele werkdagen klaar voor gebruik in jouw zaak.", "tint_color": "#f3e3ee" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

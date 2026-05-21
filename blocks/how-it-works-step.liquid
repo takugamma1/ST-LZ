@@ -1,0 +1,96 @@
+
+{% liquid
+  assign step_number = block.settings.step_number
+  if step_number == blank
+    assign step_number = forloop.index
+  endif
+-%}
+
+<div
+  class="hiw-step"
+  style="
+    --hiw-step-tint: {{ block.settings.tint_color }};
+  "
+  {{ block.shopify_attributes }}
+>
+  <div class="hiw-step__media">
+    {%- if block.settings.image != blank -%}
+      {{
+        block.settings.image
+        | image_url: width: 900
+        | image_tag:
+          loading: 'lazy',
+          widths: '300, 500, 700, 900, 1200',
+          sizes: '(min-width: 1100px) 22vw, (min-width: 750px) 24vw, 45vw',
+          class: 'hiw-step__image',
+          alt: block.settings.title
+      }}
+    {%- else -%}
+      <div class="hiw-step__image hiw-step__image--placeholder">
+        <span>0{{ step_number }}</span>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="hiw-step__body">
+    {%- if block.settings.show_step_number -%}
+      <span class="hiw-step__number">{% if step_number < 10 %}0{% endif %}{{ step_number }}</span>
+    {%- endif -%}
+    {%- if block.settings.title != blank -%}
+      <h3 class="hiw-step__title">{{ block.settings.title }}</h3>
+    {%- endif -%}
+    {%- if block.settings.description != blank -%}
+      <p class="hiw-step__description">{{ block.settings.description }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "How-it-works step",
+  "tag": null,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (3:2 recommended)"
+    },
+    {
+      "type": "text",
+      "id": "step_number",
+      "label": "Step number override",
+      "info": "Leave blank to auto-number."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_step_number",
+      "label": "Show step number",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Kies je product"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Bekijk het assortiment en kies wat past bij jouw zaak."
+    },
+    {
+      "type": "color",
+      "id": "tint_color",
+      "label": "Card tint color",
+      "info": "Subtle gradient tint shown behind the text. Pick a soft pastel.",
+      "default": "#f3f5f8"
+    }
+  ],
+  "presets": [
+    {
+      "name": "How-it-works step"
+    }
+  ]
+}
+{% endschema %}
