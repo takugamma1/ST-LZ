@@ -242,8 +242,8 @@
       "name": "Feature spotlight",
       "settings": {
         "kicker": "@CUSTOM95 & @STËLZ",
-        "heading": "STËLZ Horeca Shirt met jouw logo",
-        "body": "<p>Het horeca shirt nu beschikbaar met jouw logo.</p>",
+        "heading": "STËLZ Horeca Collection met jouw logo",
+        "body": "<p>Het horeca collection nu beschikbaar met jouw logo.</p>",
         "button_label": "Nu aanpassen",
         "button_link": "shopify://collections/essentials",
         "button_open_new_tab": false,
@@ -703,6 +703,60 @@
         "padding-block-end": 48
       }
     },
+    "faq_pill_cYpbc4": {
+      "type": "faq-pill",
+      "blocks": {
+        "faq_pill_item_cBknnU": {
+          "type": "faq-pill-item",
+          "settings": {
+            "question": "Wat is het retourbeleid?",
+            "answer": "<p>Ons doel is dat elke klant volledig tevreden is met zijn aankoop. Als dit niet het geval is, laat het ons dan weten.</p>"
+          },
+          "blocks": {}
+        },
+        "faq_pill_item_eGfBer": {
+          "type": "faq-pill-item",
+          "settings": {
+            "question": "Zijn bepaalde aankopen definitief?",
+            "answer": "<p>We kunnen bepaalde artikelen niet retour nemen. Dit wordt vóór de aankoop duidelijk aangegeven.</p>"
+          },
+          "blocks": {}
+        },
+        "faq_pill_item_ehByPw": {
+          "type": "faq-pill-item",
+          "settings": {
+            "question": "Wanneer ontvang ik mijn bestelling?",
+            "answer": "<p>We zullen je bestelling zo snel mogelijk verzenden. Zodra je bestelling is verzonden, ontvang je een e-mail met meer informatie.</p>"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "faq_pill_item_cBknnU",
+        "faq_pill_item_eGfBer",
+        "faq_pill_item_ehByPw"
+      ],
+      "name": "FAQ pill",
+      "settings": {
+        "heading": "FREQUENTLY ASKED QUESTIONS",
+        "heading_style": "outline",
+        "heading_color": "#ffffff",
+        "heading_stroke_width": 2,
+        "section_bg_color": "#071f41",
+        "button_bg": "#ffffff",
+        "button_fg": "#0c1a3a",
+        "button_border": "#0c1a3a",
+        "button_border_width": 0,
+        "button_radius": 60,
+        "button_gap": 12,
+        "answer_bg": "#ffffff",
+        "answer_fg": "#0c1a3a",
+        "open_duration": 600,
+        "section_width": "page-width",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
+    },
     "section_iaimAX": {
       "type": "section",
       "blocks": {
@@ -966,6 +1020,7 @@
         "text_8ck6h8",
         "accordion_PNgbgY"
       ],
+      "disabled": true,
       "name": "t:names.faq_section",
       "settings": {
         "content_direction": "column",
@@ -1289,6 +1344,7 @@
     "section_ghDEWX",
     "hero_wMTr8y",
     "product_list_gTfxYf",
+    "faq_pill_cYpbc4",
     "section_iaimAX",
     "hero_yp6X3r",
     "section_tc9R3C",
