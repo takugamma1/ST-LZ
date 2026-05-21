@@ -4,6 +4,12 @@
   if step_number == blank
     assign step_number = forloop.index
   endif
+
+  assign step_number_str = step_number | append: ''
+  assign step_number_pad = step_number_str
+  if step_number < 10
+    assign step_number_pad = '0' | append: step_number
+  endif
 -%}
 
 <div
@@ -25,15 +31,18 @@
       }}
     {%- else -%}
       <div class="hiw-step__image hiw-step__image--placeholder">
-        <span>0{{ step_number }}</span>
+        <span>{{ step_number_pad }}</span>
       </div>
     {%- endif -%}
-    <div class="hiw-step__gradient" aria-hidden="true"></div>
-  </div>
 
-  {%- if block.settings.title != blank -%}
-    <h3 class="hiw-step__title">{{ block.settings.title }}</h3>
-  {%- endif -%}
+    <div class="hiw-step__gradient" aria-hidden="true"></div>
+
+    <span class="hiw-step__number{% if section.settings.number_stroke_width == 0 %} hiw-step__number--solid{% endif %}" aria-hidden="true">{{ step_number_pad }}</span>
+
+    {%- if block.settings.title != blank -%}
+      <h3 class="hiw-step__title">{{ block.settings.title }}</h3>
+    {%- endif -%}
+  </div>
 </div>
 
 {% schema %}
@@ -50,7 +59,7 @@
       "type": "text",
       "id": "step_number",
       "label": "Step number override",
-      "info": "Leave blank to auto-number. Only used as placeholder when no image."
+      "info": "Leave blank to auto-number."
     },
     {
       "type": "text",

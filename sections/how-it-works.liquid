@@ -18,6 +18,9 @@
     --hiw-aspect: {{ section.settings.image_aspect }};
     --hiw-gradient-percent: {{ section.settings.gradient_percent }}%;
     --hiw-gradient-opacity: {{ section.settings.gradient_opacity | divided_by: 100.0 }};
+    --hiw-overlay-color: {{ section.settings.overlay_text_color }};
+    --hiw-number-color: {{ section.settings.number_color }};
+    --hiw-number-stroke: {{ section.settings.number_stroke_width }}px;
   "
 >
   <div class="hiw-section__inner">
@@ -121,6 +124,7 @@
     overflow: hidden;
     border-radius: var(--hiw-image-radius, 8px);
     background: transparent;
+    isolation: isolate;
   }
 
   .hiw-step__image {
@@ -155,17 +159,49 @@
     );
     opacity: var(--hiw-gradient-opacity, 1);
     pointer-events: none;
+    z-index: 1;
   }
 
+  /* Step number positioned in opposite corner from title (top-right) */
+  .hiw-step__number {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    z-index: 3;
+    margin: 0;
+    font-family: var(--font-heading--family, inherit);
+    font-weight: 900;
+    font-size: clamp(2rem, 6cqi, 4rem);
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: transparent;
+    -webkit-text-stroke: var(--hiw-number-stroke, 2px) var(--hiw-number-color, #ffffff);
+    paint-order: stroke fill;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .hiw-step__number--solid {
+    color: var(--hiw-number-color, #ffffff);
+    -webkit-text-stroke: 0;
+  }
+
+  /* Title pinned to bottom-left, inside the image, over the gradient */
   .hiw-step__title {
-    margin: 14px 0 0;
-    font-size: clamp(0.85rem, 1.4cqi, 1rem);
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 14px;
+    z-index: 2;
+    margin: 0;
+    font-size: clamp(0.9rem, 1.6cqi, 1.15rem);
     font-weight: 800;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--hiw-fg, #0c1a3a);
+    color: var(--hiw-overlay-color, #ffffff);
     line-height: 1.2;
-    text-align: center;
+    text-align: left;
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.18);
   }
 {% endstylesheet %}
 
@@ -294,6 +330,33 @@
       "step": 1,
       "unit": "px",
       "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Overlay (text on image)"
+    },
+    {
+      "type": "color",
+      "id": "overlay_text_color",
+      "label": "Title color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Step number color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "number_stroke_width",
+      "label": "Step number outline thickness",
+      "info": "Set to 0 for a solid filled number instead of outlined.",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 2
     },
     {
       "type": "header",
