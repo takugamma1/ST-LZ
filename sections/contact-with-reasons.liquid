@@ -20,6 +20,7 @@
     --contact-card-border: {{ section.settings.card_border }};
     --contact-card-fg: {{ section.settings.card_fg }};
     --contact-card-radius: {{ section.settings.card_radius }}px;
+    --contact-card-selected-border: {{ section.settings.card_selected_border }};
     --contact-icon-bg: {{ section.settings.icon_bg }};
     --contact-icon-fg: {{ section.settings.icon_fg }};
     --contact-icon-radius: {{ section.settings.icon_radius }}px;
@@ -31,6 +32,7 @@
     --contact-submit-bg: {{ section.settings.submit_bg }};
     --contact-submit-fg: {{ section.settings.submit_fg }};
     --contact-submit-radius: {{ section.settings.submit_radius }}px;
+    --contact-content-width: {{ section.settings.content_width }}px;
   "
 >
   <div class="contact-section__inner">
@@ -44,101 +46,101 @@
       <p class="contact-section__subheading">{{ section.settings.subheading }}</p>
     {%- endif -%}
 
-    {%- if section.blocks.size > 0 -%}
-      {%- if section.settings.reasons_title != blank -%}
-        <p class="contact-section__eyebrow">{{ section.settings.reasons_title }}</p>
+    {%- form 'contact', id: form_id, class: 'contact-form-fancy' -%}
+      {%- if form.errors -%}
+        <div class="contact-form-fancy__error" tabindex="-1" autofocus>
+          {{- 'icon-error.svg' | inline_asset_content -}}
+          <span>
+            {{- form.errors.translated_fields.email | capitalize }}
+            {{ form.errors.messages.email -}}
+          </span>
+        </div>
       {%- endif -%}
 
-      <div class="contact-reasons">
-        {%- content_for 'blocks' -%}
-      </div>
-    {%- endif -%}
+      {%- if form.posted_successfully? -%}
+        <div class="contact-form-fancy__success" tabindex="-1" autofocus>
+          {{- 'icon-checkmark.svg' | inline_asset_content -}}
+          <span>{{- 'blocks.contact_form.post_success' | t -}}</span>
+        </div>
+      {%- endif -%}
 
-    <div class="contact-form-wrap">
+      {%- if section.blocks.size > 0 -%}
+        {%- if section.settings.reasons_title != blank -%}
+          <p class="contact-section__eyebrow">{{ section.settings.reasons_title }}</p>
+        {%- endif -%}
+
+        <div class="contact-reasons" role="radiogroup" aria-label="{{ section.settings.reasons_title | escape }}">
+          {%- content_for 'blocks' -%}
+        </div>
+      {%- endif -%}
+
       {%- if section.settings.form_heading != blank -%}
-        <h2 class="contact-form-wrap__heading">{{ section.settings.form_heading }}</h2>
+        <h2 class="contact-form-fancy__heading">{{ section.settings.form_heading }}</h2>
       {%- endif -%}
 
       {%- if section.settings.form_intro != blank -%}
-        <div class="contact-form-wrap__intro">{{ section.settings.form_intro }}</div>
+        <div class="contact-form-fancy__intro">{{ section.settings.form_intro }}</div>
       {%- endif -%}
 
-      {%- form 'contact', id: form_id, class: 'contact-form-fancy' -%}
-        {%- if form.errors -%}
-          <div class="contact-form-fancy__error" tabindex="-1" autofocus>
-            {{- 'icon-error.svg' | inline_asset_content -}}
-            <span>
-              {{- form.errors.translated_fields.email | capitalize }}
-              {{ form.errors.messages.email -}}
-            </span>
-          </div>
-        {%- endif -%}
-
-        {%- if form.posted_successfully? -%}
-          <div class="contact-form-fancy__success" tabindex="-1" autofocus>
-            {{- 'icon-checkmark.svg' | inline_asset_content -}}
-            <span>{{- 'blocks.contact_form.post_success' | t -}}</span>
-          </div>
-        {%- endif -%}
-
-        <div class="contact-form-fancy__row">
-          <label class="contact-form-fancy__label" for="{{ form_id }}-name">
-            {{ 'blocks.contact_form.name' | t }}
-            <input
-              type="text"
-              id="{{ form_id }}-name"
-              class="contact-form-fancy__input"
-              autocomplete="name"
-              name="contact[name]"
-              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-            >
-          </label>
-
-          <label class="contact-form-fancy__label" for="{{ form_id }}-email">
-            {{ 'blocks.contact_form.email' | t }} <span aria-hidden="true">*</span>
-            <input
-              type="email"
-              id="{{ form_id }}-email"
-              class="contact-form-fancy__input"
-              autocomplete="email"
-              name="contact[email]"
-              spellcheck="false"
-              autocapitalize="off"
-              value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
-              aria-required="true"
-              required
-            >
-          </label>
-        </div>
-
-        <label class="contact-form-fancy__label" for="{{ form_id }}-phone">
-          {{ 'blocks.contact_form.phone' | t }}
+      <div class="contact-form-fancy__row">
+        <label class="contact-form-fancy__label" for="{{ form_id }}-name">
+          <span class="contact-form-fancy__label-text">{{ 'blocks.contact_form.name' | t }}</span>
           <input
-            type="tel"
-            id="{{ form_id }}-phone"
+            type="text"
+            id="{{ form_id }}-name"
             class="contact-form-fancy__input"
-            autocomplete="tel"
-            name="contact[phone]"
-            pattern="[0-9\-\+\s]*"
-            value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+            autocomplete="name"
+            name="contact[name]"
+            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
           >
         </label>
 
-        <label class="contact-form-fancy__label" for="{{ form_id }}-body">
-          {{ 'blocks.contact_form.comment' | t }}
-          <textarea
-            rows="6"
-            id="{{ form_id }}-body"
-            class="contact-form-fancy__input contact-form-fancy__textarea"
-            name="contact[body]"
-          >{{- form.body -}}</textarea>
+        <label class="contact-form-fancy__label" for="{{ form_id }}-email">
+          <span class="contact-form-fancy__label-text">
+            {{ 'blocks.contact_form.email' | t }}<span class="contact-form-fancy__required" aria-hidden="true">*</span>
+          </span>
+          <input
+            type="email"
+            id="{{ form_id }}-email"
+            class="contact-form-fancy__input"
+            autocomplete="email"
+            name="contact[email]"
+            spellcheck="false"
+            autocapitalize="off"
+            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            aria-required="true"
+            required
+          >
         </label>
+      </div>
 
-        <button type="submit" class="contact-form-fancy__submit">
-          {{ section.settings.submit_label }}
-        </button>
-      {%- endform -%}
-    </div>
+      <label class="contact-form-fancy__label" for="{{ form_id }}-phone">
+        <span class="contact-form-fancy__label-text">{{ 'blocks.contact_form.phone' | t }}</span>
+        <input
+          type="tel"
+          id="{{ form_id }}-phone"
+          class="contact-form-fancy__input"
+          autocomplete="tel"
+          name="contact[phone]"
+          pattern="[0-9\-\+\s]*"
+          value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+        >
+      </label>
+
+      <label class="contact-form-fancy__label" for="{{ form_id }}-body">
+        <span class="contact-form-fancy__label-text">{{ 'blocks.contact_form.comment' | t }}</span>
+        <textarea
+          rows="6"
+          id="{{ form_id }}-body"
+          class="contact-form-fancy__input contact-form-fancy__textarea"
+          name="contact[body]"
+        >{{- form.body -}}</textarea>
+      </label>
+
+      <button type="submit" class="contact-form-fancy__submit">
+        {{ section.settings.submit_label }}
+      </button>
+    {%- endform -%}
   </div>
 </div>
 
@@ -146,12 +148,17 @@
   .contact-section {
     color: var(--contact-fg, #0c1a3a);
     position: relative;
+    text-align: center;
   }
 
   .contact-section__inner {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    align-items: center;
+    gap: 24px;
+    max-width: var(--contact-content-width, 880px);
+    margin: 0 auto;
+    width: 100%;
   }
 
   .contact-section__heading {
@@ -162,6 +169,7 @@
     letter-spacing: 0.01em;
     color: var(--contact-fg, #0c1a3a);
     font-size: clamp(2.5rem, 9cqi, 5.5rem);
+    text-align: center;
   }
 
   .contact-section__heading--serif {
@@ -174,15 +182,18 @@
     font-size: 1rem;
     color: var(--contact-fg, #0c1a3a);
     opacity: 0.85;
+    text-align: center;
   }
 
   .contact-section__eyebrow {
-    margin: 16px 0 0;
+    margin: 24px 0 4px;
     font-size: 0.85rem;
     font-weight: 800;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--contact-muted, #0c1a3a);
+    text-align: center;
+    width: 100%;
   }
 
   /* --- Reasons grid --------------------------------------------- */
@@ -190,7 +201,8 @@
   .contact-reasons {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 12px;
+    width: 100%;
   }
 
   @media (min-width: 750px) {
@@ -200,22 +212,43 @@
   }
 
   .contact-reason {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
     padding: 14px 16px;
     background: var(--contact-card-bg, #ffffff);
     color: var(--contact-card-fg, #0c1a3a);
-    border: 1px solid var(--contact-card-border, rgb(0 0 0 / 0.1));
+    border: 2px solid var(--contact-card-border, rgb(0 0 0 / 0.08));
     border-radius: var(--contact-card-radius, 14px);
-    text-decoration: none;
-    transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    text-align: left;
+    transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
   }
 
   .contact-reason:hover {
-    border-color: var(--contact-card-fg, #0c1a3a);
-    box-shadow: 0 4px 16px rgb(0 0 0 / 0.08);
-    transform: translateY(-1px);
+    border-color: var(--contact-card-selected-border, var(--contact-card-fg, #0c1a3a));
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.06);
+  }
+
+  .contact-reason__input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+  }
+
+  /* Selected state via :has() */
+  .contact-reason:has(.contact-reason__input:checked) {
+    border-color: var(--contact-card-selected-border, var(--contact-card-fg, #0c1a3a));
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
+  }
+
+  /* Focus ring for keyboard nav */
+  .contact-reason:has(.contact-reason__input:focus-visible) {
+    outline: 3px solid var(--contact-card-selected-border, var(--contact-card-fg, #0c1a3a));
+    outline-offset: 2px;
   }
 
   .contact-reason__icon {
@@ -230,6 +263,12 @@
     justify-content: center;
   }
 
+  .contact-reason__icon svg {
+    width: 60%;
+    height: 60%;
+  }
+
+  /* Uploaded raster icons get recolored to match icon-fg */
   .contact-reason__icon img {
     width: 60%;
     height: 60%;
@@ -247,60 +286,66 @@
     color: var(--contact-card-fg, #0c1a3a);
   }
 
-  .contact-reason__arrow {
+  .contact-reason__check {
     flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    opacity: 0.55;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--contact-card-border, rgb(0 0 0 / 0.2));
+    color: transparent;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   }
 
-  .contact-reason__arrow svg {
-    width: 100%;
-    height: 100%;
+  .contact-reason__check svg {
+    width: 70%;
+    height: 70%;
+  }
+
+  .contact-reason:has(.contact-reason__input:checked) .contact-reason__check {
+    background: var(--contact-card-selected-border, var(--contact-card-fg, #0c1a3a));
+    border-color: var(--contact-card-selected-border, var(--contact-card-fg, #0c1a3a));
+    color: var(--contact-card-bg, #ffffff);
   }
 
   /* --- Form ----------------------------------------------------- */
 
-  .contact-form-wrap {
-    margin-top: 16px;
+  .contact-form-fancy {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    align-items: stretch;
+    gap: 14px;
+    width: 100%;
+    text-align: left;
   }
 
-  .contact-form-wrap__heading {
-    margin: 0;
+  .contact-form-fancy__heading {
+    margin: 24px 0 0;
     font-size: 1.5rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--contact-fg, #0c1a3a);
+    text-align: center;
   }
 
-  .contact-form-wrap__intro {
+  .contact-form-fancy__intro {
     margin: 0 0 8px;
     color: var(--contact-fg, #0c1a3a);
     opacity: 0.8;
     font-size: 1rem;
     line-height: 1.5;
+    text-align: center;
   }
 
-  .contact-form-wrap__intro > :first-child {
+  .contact-form-fancy__intro > :first-child {
     margin-top: 0;
   }
 
-  .contact-form-wrap__intro > :last-child {
+  .contact-form-fancy__intro > :last-child {
     margin-bottom: 0;
-  }
-
-  .contact-form-fancy {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    max-width: 640px;
   }
 
   .contact-form-fancy__row {
@@ -319,12 +364,23 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
+    color: var(--contact-fg, #0c1a3a);
+  }
+
+  .contact-form-fancy__label-text {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--contact-fg, #0c1a3a);
     opacity: 0.9;
+  }
+
+  .contact-form-fancy__required {
+    color: currentColor;
+    opacity: 0.7;
   }
 
   .contact-form-fancy__input {
@@ -348,14 +404,14 @@
 
   .contact-form-fancy__textarea {
     resize: vertical;
-    min-height: 140px;
+    min-height: 160px;
     font-family: inherit;
     line-height: 1.5;
   }
 
   .contact-form-fancy__submit {
-    align-self: flex-start;
-    padding: 14px 36px;
+    align-self: center;
+    padding: 14px 44px;
     border: none;
     cursor: pointer;
     background: var(--contact-submit-bg, #0c1a3a);
@@ -446,6 +502,16 @@
       "default": "Vind snel het antwoord op je vraag."
     },
     {
+      "type": "range",
+      "id": "content_width",
+      "label": "Max content width",
+      "min": 600,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "default": 880
+    },
+    {
       "type": "header",
       "content": "Reasons grid"
     },
@@ -479,8 +545,14 @@
     {
       "type": "color",
       "id": "card_border",
-      "label": "Card border color",
+      "label": "Card border",
       "default": "#e6e8ed"
+    },
+    {
+      "type": "color",
+      "id": "card_selected_border",
+      "label": "Card border (when selected)",
+      "default": "#0c1a3a"
     },
     {
       "type": "range",
@@ -502,8 +574,7 @@
       "type": "color",
       "id": "icon_fg",
       "label": "Icon color",
-      "default": "#ffffff",
-      "info": "Icons are recolored to this value (uses brightness/invert)."
+      "default": "#ffffff"
     },
     {
       "type": "range",
@@ -649,11 +720,11 @@
       "name": "Contact with reasons",
       "category": "Contact",
       "blocks": [
-        { "type": "contact-reason", "settings": { "label": "BESTELLEN & BETALEN" } },
-        { "type": "contact-reason", "settings": { "label": "BEZORGING & RETOUREN" } },
-        { "type": "contact-reason", "settings": { "label": "PROBLEMEN MET JE ORDER" } },
-        { "type": "contact-reason", "settings": { "label": "PRODUCT & ASSORTIMENT" } },
-        { "type": "contact-reason", "settings": { "label": "B2B & ZAKELIJK" } }
+        { "type": "contact-reason", "settings": { "label": "BESTELLEN & BETALEN", "icon_preset": "cart" } },
+        { "type": "contact-reason", "settings": { "label": "BEZORGING & RETOUREN", "icon_preset": "truck" } },
+        { "type": "contact-reason", "settings": { "label": "PROBLEMEN MET JE ORDER", "icon_preset": "alert" } },
+        { "type": "contact-reason", "settings": { "label": "PRODUCT & ASSORTIMENT", "icon_preset": "bottle" } },
+        { "type": "contact-reason", "settings": { "label": "B2B & ZAKELIJK", "icon_preset": "briefcase" } }
       ]
     }
   ]
