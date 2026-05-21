@@ -1,0 +1,385 @@
+
+{% liquid
+  assign image = section.settings.image
+  assign layout_mod = 'feature-spotlight--media-' | append: section.settings.media_position
+  assign button_style_class = 'feature-spotlight__button feature-spotlight__button--' | append: section.settings.button_style
+-%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+
+<div
+  class="
+    feature-spotlight
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    {{ layout_mod }}
+    spacing-style
+  "
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    --spotlight-radius: {{ section.settings.image_radius }}px;
+    --spotlight-gap: {{ section.settings.column_gap }}px;
+  "
+>
+  <div class="feature-spotlight__inner">
+    <div class="feature-spotlight__content">
+      {%- if section.settings.kicker != blank -%}
+        <p class="feature-spotlight__kicker">{{ section.settings.kicker }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="feature-spotlight__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.body != blank -%}
+        <div class="feature-spotlight__body">{{ section.settings.body }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+        <a
+          href="{{ section.settings.button_link }}"
+          class="{{ button_style_class }}"
+          {% if section.settings.button_open_new_tab %}target="_blank" rel="noopener"{% endif %}
+        >
+          {{ section.settings.button_label }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="feature-spotlight__media">
+      {%- if image != blank -%}
+        {{
+          image
+          | image_url: width: 1400
+          | image_tag:
+            loading: 'lazy',
+            widths: '400, 600, 800, 1000, 1400, 1800',
+            sizes: '(min-width: 750px) 55vw, 100vw',
+            class: 'feature-spotlight__image',
+            alt: image.alt
+        }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'feature-spotlight__image feature-spotlight__image--placeholder' }}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .feature-spotlight {
+    --spotlight-radius: 28px;
+    --spotlight-gap: 64px;
+
+    container-type: inline-size;
+  }
+
+  .feature-spotlight__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+
+  @media (min-width: 750px) {
+    .feature-spotlight__inner {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--spotlight-gap, 64px);
+    }
+
+    .feature-spotlight--media-left .feature-spotlight__inner {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    }
+
+    .feature-spotlight--media-left .feature-spotlight__media {
+      order: 0;
+    }
+
+    .feature-spotlight--media-left .feature-spotlight__content {
+      order: 1;
+    }
+  }
+
+  .feature-spotlight__content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-block: 16px;
+    order: 1;
+  }
+
+  @media (min-width: 750px) {
+    .feature-spotlight__content {
+      padding-inline-end: 16px;
+      gap: 24px;
+      order: 0;
+    }
+  }
+
+  .feature-spotlight__kicker {
+    margin: 0;
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    opacity: 0.6;
+    font-weight: 500;
+  }
+
+  .feature-spotlight__heading {
+    margin: 0;
+    font-size: clamp(1.75rem, 4cqi, 2.75rem);
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    font-weight: 800;
+  }
+
+  .feature-spotlight__body {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--color-foreground);
+    opacity: 0.85;
+    max-width: 44ch;
+  }
+
+  .feature-spotlight__body > :first-child {
+    margin-top: 0;
+  }
+
+  .feature-spotlight__body > :last-child {
+    margin-bottom: 0;
+  }
+
+  .feature-spotlight__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    padding: 14px 32px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  }
+
+  .feature-spotlight__button:active {
+    transform: translateY(1px);
+  }
+
+  .feature-spotlight__button--outline {
+    background: transparent;
+    color: var(--color-foreground);
+    border: 2px solid currentColor;
+  }
+
+  .feature-spotlight__button--outline:hover {
+    background: var(--color-foreground);
+    color: var(--color-background);
+  }
+
+  .feature-spotlight__button--solid {
+    background: var(--color-foreground);
+    color: var(--color-background);
+    border: 2px solid var(--color-foreground);
+  }
+
+  .feature-spotlight__button--solid:hover {
+    filter: brightness(1.1);
+  }
+
+  .feature-spotlight__media {
+    order: 0;
+    overflow: hidden;
+    border-radius: var(--spotlight-radius, 28px);
+    aspect-ratio: 4 / 5;
+    background: rgb(0 0 0 / 0.05);
+  }
+
+  @media (min-width: 750px) {
+    .feature-spotlight__media {
+      aspect-ratio: 5 / 6;
+      order: 1;
+    }
+  }
+
+  .feature-spotlight__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .feature-spotlight__image--placeholder {
+    object-fit: contain;
+    padding: 24px;
+    opacity: 0.5;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Feature spotlight",
+  "tag": "section",
+  "class": "feature-spotlight-wrapper section-wrapper",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker (small caps)",
+      "info": "Short label shown above the heading. Leave blank to hide.",
+      "default": "@BIZZEY & @HOLLYBROOD"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "HARD LEMONADE"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body text",
+      "default": "<p>Voor STËLZ Hard Lemonade brachten we samen met Bizzey en Holly Brood de sfeer van Casa STËLZ Ibiza tot leven, met de smaken Orange, Strawberry en Cassis.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_open_new_tab",
+      "label": "Open link in new tab",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        { "value": "outline", "label": "Outlined pill" },
+        { "value": "solid", "label": "Solid pill" }
+      ],
+      "default": "outline"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "label": "Image corner radius",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Image position (desktop)",
+      "options": [
+        { "value": "right", "label": "Right" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "right",
+      "info": "Mobile always stacks image on top."
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 16,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature spotlight",
+      "category": "Image",
+      "settings": {
+        "media_position": "right",
+        "button_style": "outline"
+      }
+    }
+  ]
+}
+{% endschema %}
