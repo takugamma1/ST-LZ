@@ -1,0 +1,661 @@
+
+{% liquid
+  assign form_id = 'ContactWithReasons-' | append: section.id
+-%}
+
+<div class="section-background contact-section__background" style="background: {{ section.settings.section_bg_color }};"></div>
+
+<div
+  class="
+    contact-section
+    section
+    section--{{ section.settings.section_width }}
+    spacing-style
+  "
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    --contact-fg: {{ section.settings.section_fg_color }};
+    --contact-muted: {{ section.settings.section_muted_color }};
+    --contact-card-bg: {{ section.settings.card_bg }};
+    --contact-card-border: {{ section.settings.card_border }};
+    --contact-card-fg: {{ section.settings.card_fg }};
+    --contact-card-radius: {{ section.settings.card_radius }}px;
+    --contact-icon-bg: {{ section.settings.icon_bg }};
+    --contact-icon-fg: {{ section.settings.icon_fg }};
+    --contact-icon-radius: {{ section.settings.icon_radius }}px;
+    --contact-reason-columns: {{ section.settings.reason_columns }};
+    --contact-input-bg: {{ section.settings.input_bg }};
+    --contact-input-fg: {{ section.settings.input_fg }};
+    --contact-input-border: {{ section.settings.input_border }};
+    --contact-input-radius: {{ section.settings.input_radius }}px;
+    --contact-submit-bg: {{ section.settings.submit_bg }};
+    --contact-submit-fg: {{ section.settings.submit_fg }};
+    --contact-submit-radius: {{ section.settings.submit_radius }}px;
+  "
+>
+  <div class="contact-section__inner">
+    {%- if section.settings.heading != blank -%}
+      <h1 class="contact-section__heading contact-section__heading--{{ section.settings.heading_style }}">
+        {{ section.settings.heading }}
+      </h1>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="contact-section__subheading">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      {%- if section.settings.reasons_title != blank -%}
+        <p class="contact-section__eyebrow">{{ section.settings.reasons_title }}</p>
+      {%- endif -%}
+
+      <div class="contact-reasons">
+        {%- content_for 'blocks' -%}
+      </div>
+    {%- endif -%}
+
+    <div class="contact-form-wrap">
+      {%- if section.settings.form_heading != blank -%}
+        <h2 class="contact-form-wrap__heading">{{ section.settings.form_heading }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.form_intro != blank -%}
+        <div class="contact-form-wrap__intro">{{ section.settings.form_intro }}</div>
+      {%- endif -%}
+
+      {%- form 'contact', id: form_id, class: 'contact-form-fancy' -%}
+        {%- if form.errors -%}
+          <div class="contact-form-fancy__error" tabindex="-1" autofocus>
+            {{- 'icon-error.svg' | inline_asset_content -}}
+            <span>
+              {{- form.errors.translated_fields.email | capitalize }}
+              {{ form.errors.messages.email -}}
+            </span>
+          </div>
+        {%- endif -%}
+
+        {%- if form.posted_successfully? -%}
+          <div class="contact-form-fancy__success" tabindex="-1" autofocus>
+            {{- 'icon-checkmark.svg' | inline_asset_content -}}
+            <span>{{- 'blocks.contact_form.post_success' | t -}}</span>
+          </div>
+        {%- endif -%}
+
+        <div class="contact-form-fancy__row">
+          <label class="contact-form-fancy__label" for="{{ form_id }}-name">
+            {{ 'blocks.contact_form.name' | t }}
+            <input
+              type="text"
+              id="{{ form_id }}-name"
+              class="contact-form-fancy__input"
+              autocomplete="name"
+              name="contact[name]"
+              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+            >
+          </label>
+
+          <label class="contact-form-fancy__label" for="{{ form_id }}-email">
+            {{ 'blocks.contact_form.email' | t }} <span aria-hidden="true">*</span>
+            <input
+              type="email"
+              id="{{ form_id }}-email"
+              class="contact-form-fancy__input"
+              autocomplete="email"
+              name="contact[email]"
+              spellcheck="false"
+              autocapitalize="off"
+              value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+              aria-required="true"
+              required
+            >
+          </label>
+        </div>
+
+        <label class="contact-form-fancy__label" for="{{ form_id }}-phone">
+          {{ 'blocks.contact_form.phone' | t }}
+          <input
+            type="tel"
+            id="{{ form_id }}-phone"
+            class="contact-form-fancy__input"
+            autocomplete="tel"
+            name="contact[phone]"
+            pattern="[0-9\-\+\s]*"
+            value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+          >
+        </label>
+
+        <label class="contact-form-fancy__label" for="{{ form_id }}-body">
+          {{ 'blocks.contact_form.comment' | t }}
+          <textarea
+            rows="6"
+            id="{{ form_id }}-body"
+            class="contact-form-fancy__input contact-form-fancy__textarea"
+            name="contact[body]"
+          >{{- form.body -}}</textarea>
+        </label>
+
+        <button type="submit" class="contact-form-fancy__submit">
+          {{ section.settings.submit_label }}
+        </button>
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .contact-section {
+    color: var(--contact-fg, #0c1a3a);
+    position: relative;
+  }
+
+  .contact-section__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .contact-section__heading {
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: 0.01em;
+    color: var(--contact-fg, #0c1a3a);
+    font-size: clamp(2.5rem, 9cqi, 5.5rem);
+  }
+
+  .contact-section__heading--serif {
+    font-family: var(--font-heading--family, serif);
+    font-weight: 700;
+  }
+
+  .contact-section__subheading {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--contact-fg, #0c1a3a);
+    opacity: 0.85;
+  }
+
+  .contact-section__eyebrow {
+    margin: 16px 0 0;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--contact-muted, #0c1a3a);
+  }
+
+  /* --- Reasons grid --------------------------------------------- */
+
+  .contact-reasons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  @media (min-width: 750px) {
+    .contact-reasons {
+      grid-template-columns: repeat(var(--contact-reason-columns, 3), minmax(0, 1fr));
+    }
+  }
+
+  .contact-reason {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    background: var(--contact-card-bg, #ffffff);
+    color: var(--contact-card-fg, #0c1a3a);
+    border: 1px solid var(--contact-card-border, rgb(0 0 0 / 0.1));
+    border-radius: var(--contact-card-radius, 14px);
+    text-decoration: none;
+    transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .contact-reason:hover {
+    border-color: var(--contact-card-fg, #0c1a3a);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.08);
+    transform: translateY(-1px);
+  }
+
+  .contact-reason__icon {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--contact-icon-radius, 10px);
+    background: var(--contact-icon-bg, #0c1a3a);
+    color: var(--contact-icon-fg, #ffffff);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contact-reason__icon img {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+
+  .contact-reason__label {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--contact-card-fg, #0c1a3a);
+  }
+
+  .contact-reason__arrow {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    opacity: 0.55;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contact-reason__arrow svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* --- Form ----------------------------------------------------- */
+
+  .contact-form-wrap {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .contact-form-wrap__heading {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--contact-fg, #0c1a3a);
+  }
+
+  .contact-form-wrap__intro {
+    margin: 0 0 8px;
+    color: var(--contact-fg, #0c1a3a);
+    opacity: 0.8;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .contact-form-wrap__intro > :first-child {
+    margin-top: 0;
+  }
+
+  .contact-form-wrap__intro > :last-child {
+    margin-bottom: 0;
+  }
+
+  .contact-form-fancy {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 640px;
+  }
+
+  .contact-form-fancy__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  @media (min-width: 600px) {
+    .contact-form-fancy__row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .contact-form-fancy__label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--contact-fg, #0c1a3a);
+    opacity: 0.9;
+  }
+
+  .contact-form-fancy__input {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--contact-input-fg, #0c1a3a);
+    background: var(--contact-input-bg, #ffffff);
+    border: 1px solid var(--contact-input-border, rgb(0 0 0 / 0.15));
+    border-radius: var(--contact-input-radius, 12px);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    appearance: none;
+  }
+
+  .contact-form-fancy__input:focus {
+    outline: none;
+    border-color: var(--contact-fg, #0c1a3a);
+    box-shadow: 0 0 0 3px rgb(0 0 0 / 0.08);
+  }
+
+  .contact-form-fancy__textarea {
+    resize: vertical;
+    min-height: 140px;
+    font-family: inherit;
+    line-height: 1.5;
+  }
+
+  .contact-form-fancy__submit {
+    align-self: flex-start;
+    padding: 14px 36px;
+    border: none;
+    cursor: pointer;
+    background: var(--contact-submit-bg, #0c1a3a);
+    color: var(--contact-submit-fg, #ffffff);
+    border-radius: var(--contact-submit-radius, 999px);
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: filter 0.2s ease, transform 0.15s ease;
+    margin-top: 8px;
+  }
+
+  .contact-form-fancy__submit:hover {
+    filter: brightness(1.1);
+  }
+
+  .contact-form-fancy__submit:active {
+    transform: translateY(1px);
+  }
+
+  .contact-form-fancy__error,
+  .contact-form-fancy__success {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: var(--contact-input-radius, 12px);
+    font-size: 0.9rem;
+  }
+
+  .contact-form-fancy__error {
+    background: rgb(220 50 50 / 0.08);
+    color: #b00020;
+  }
+
+  .contact-form-fancy__success {
+    background: rgb(40 160 80 / 0.1);
+    color: #1c7c3a;
+  }
+
+  .contact-form-fancy__error svg,
+  .contact-form-fancy__success svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Contact with reasons",
+  "tag": "section",
+  "class": "contact-section-wrapper section-wrapper",
+  "blocks": [
+    {
+      "type": "contact-reason"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "CONTACT"
+    },
+    {
+      "type": "select",
+      "id": "heading_style",
+      "label": "Heading style",
+      "options": [
+        { "value": "bold", "label": "Bold sans" },
+        { "value": "serif", "label": "Serif" }
+      ],
+      "default": "serif"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Vind snel het antwoord op je vraag."
+    },
+    {
+      "type": "header",
+      "content": "Reasons grid"
+    },
+    {
+      "type": "text",
+      "id": "reasons_title",
+      "label": "Reasons section title",
+      "default": "WAAR KUNNEN WE JE MEE HELPEN?"
+    },
+    {
+      "type": "range",
+      "id": "reason_columns",
+      "label": "Columns (desktop)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_fg",
+      "label": "Card text color",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "color",
+      "id": "card_border",
+      "label": "Card border color",
+      "default": "#e6e8ed"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "icon_bg",
+      "label": "Icon container background",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "color",
+      "id": "icon_fg",
+      "label": "Icon color",
+      "default": "#ffffff",
+      "info": "Icons are recolored to this value (uses brightness/invert)."
+    },
+    {
+      "type": "range",
+      "id": "icon_radius",
+      "label": "Icon container radius",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Form"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form heading",
+      "default": "STUUR EEN BERICHT"
+    },
+    {
+      "type": "richtext",
+      "id": "form_intro",
+      "label": "Form intro",
+      "default": "<p>Geen passend antwoord gevonden? Stuur ons een bericht en we komen er snel op terug.</p>"
+    },
+    {
+      "type": "color",
+      "id": "input_bg",
+      "label": "Input background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_fg",
+      "label": "Input text color",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "color",
+      "id": "input_border",
+      "label": "Input border",
+      "default": "#d6d8df"
+    },
+    {
+      "type": "range",
+      "id": "input_radius",
+      "label": "Input corner radius",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button label",
+      "default": "VERZENDEN"
+    },
+    {
+      "type": "color",
+      "id": "submit_bg",
+      "label": "Submit button background",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "color",
+      "id": "submit_fg",
+      "label": "Submit button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "submit_radius",
+      "label": "Submit corner radius",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Section appearance"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "section_fg_color",
+      "label": "Section text color",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "color",
+      "id": "section_muted_color",
+      "label": "Muted accent color",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact with reasons",
+      "category": "Contact",
+      "blocks": [
+        { "type": "contact-reason", "settings": { "label": "BESTELLEN & BETALEN" } },
+        { "type": "contact-reason", "settings": { "label": "BEZORGING & RETOUREN" } },
+        { "type": "contact-reason", "settings": { "label": "PROBLEMEN MET JE ORDER" } },
+        { "type": "contact-reason", "settings": { "label": "PRODUCT & ASSORTIMENT" } },
+        { "type": "contact-reason", "settings": { "label": "B2B & ZAKELIJK" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

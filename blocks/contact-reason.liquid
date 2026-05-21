@@ -1,0 +1,67 @@
+
+{% liquid
+  assign label = block.settings.label
+-%}
+
+<a
+  href="{{ block.settings.link | default: '#' }}"
+  class="contact-reason"
+  {% if block.settings.open_new_tab %}target="_blank" rel="noopener"{% endif %}
+  {{ block.shopify_attributes }}
+>
+  <span class="contact-reason__icon">
+    {%- if block.settings.icon != blank -%}
+      {{
+        block.settings.icon
+        | image_url: width: 120
+        | image_tag:
+          loading: 'lazy',
+          widths: '60, 120, 180',
+          sizes: '40px',
+          alt: ''
+      }}
+    {%- endif -%}
+  </span>
+  <span class="contact-reason__label">{{ label }}</span>
+  <span class="contact-reason__arrow" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </span>
+</a>
+
+{% schema %}
+{
+  "name": "Contact reason",
+  "tag": null,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "icon",
+      "label": "Icon (SVG / PNG)"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "BESTELLEN & BETALEN"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_new_tab",
+      "label": "Open in new tab",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact reason"
+    }
+  ]
+}
+{% endschema %}
