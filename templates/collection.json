@@ -15,7 +15,7 @@
         "text_NG3bQm": {
           "type": "text",
           "settings": {
-            "text": "<h1>{{ closest.collection.title }}</h1>",
+            "text": "<h1>HORECA COLLECTION</h1>",
             "width": "fit-content",
             "max_width": "narrow",
             "alignment": "center",

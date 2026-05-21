@@ -1092,6 +1092,91 @@
         "padding-block-end": 0
       }
     },
+    "contact_with_reasons_BTTCde": {
+      "type": "contact-with-reasons",
+      "blocks": {
+        "contact_reason_GLp44W": {
+          "type": "contact-reason",
+          "settings": {
+            "label": "BESTELLEN & BETALEN",
+            "icon_preset": "cart"
+          },
+          "blocks": {}
+        },
+        "contact_reason_r99gVX": {
+          "type": "contact-reason",
+          "settings": {
+            "label": "BEZORGING & RETOUREN",
+            "icon_preset": "truck"
+          },
+          "blocks": {}
+        },
+        "contact_reason_KHQGcN": {
+          "type": "contact-reason",
+          "settings": {
+            "label": "PROBLEMEN MET JE ORDER",
+            "icon_preset": "question"
+          },
+          "blocks": {}
+        },
+        "contact_reason_eLh6Xd": {
+          "type": "contact-reason",
+          "settings": {
+            "label": "PRODUCT & ASSORTIMENT",
+            "icon_preset": "bottle"
+          },
+          "blocks": {}
+        },
+        "contact_reason_F8p974": {
+          "type": "contact-reason",
+          "settings": {
+            "label": "B2B & ZAKELIJK",
+            "icon_preset": "briefcase"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "contact_reason_GLp44W",
+        "contact_reason_r99gVX",
+        "contact_reason_KHQGcN",
+        "contact_reason_eLh6Xd",
+        "contact_reason_F8p974"
+      ],
+      "name": "Contact with reasons",
+      "settings": {
+        "heading": "CONTACT",
+        "heading_style": "serif",
+        "subheading": "Vind snel het antwoord op je vraag.",
+        "content_width": 880,
+        "reasons_title": "WAAR KUNNEN WE JE MEE HELPEN?",
+        "reason_columns": 3,
+        "card_bg": "#ffffff",
+        "card_fg": "#0c1a3a",
+        "card_border": "#e6e8ed",
+        "card_selected_border": "#0c1a3a",
+        "card_radius": 14,
+        "icon_bg": "#0c1a3a",
+        "icon_fg": "#ffffff",
+        "icon_radius": 10,
+        "form_heading": "STUUR EEN BERICHT",
+        "form_intro": "<p>Geen passend antwoord gevonden? Stuur ons een bericht en we komen er snel op terug.</p>",
+        "input_bg": "#ffffff",
+        "input_fg": "#0c1a3a",
+        "input_border": "#d6d8df",
+        "input_radius": 12,
+        "submit_label": "VERZENDEN",
+        "submit_bg": "#0c1a3a",
+        "submit_fg": "#ffffff",
+        "submit_radius": 60,
+        "section_bg_color": "#ffffff",
+        "section_fg_color": "#0c1a3a",
+        "section_muted_color": "#0c1a3a",
+        "section_width": "page-width",
+        "padding-block-start": 80,
+        "padding-block-end": 80
+      }
+    },
     "marquee_9fTgge": {
       "type": "marquee",
       "blocks": {
@@ -1240,94 +1325,6 @@
         "background_size": "cover",
         "background_repeat": "repeat",
         "background_position": "right center"
-      }
-    },
-    "contact_with_reasons_BTTCde": {
-      "type": "contact-with-reasons",
-      "blocks": {
-        "contact_reason_GLp44W": {
-          "type": "contact-reason",
-          "settings": {
-            "label": "BESTELLEN & BETALEN",
-            "link": "",
-            "open_new_tab": false
-          },
-          "blocks": {}
-        },
-        "contact_reason_r99gVX": {
-          "type": "contact-reason",
-          "settings": {
-            "label": "BEZORGING & RETOUREN",
-            "link": "",
-            "open_new_tab": false
-          },
-          "blocks": {}
-        },
-        "contact_reason_KHQGcN": {
-          "type": "contact-reason",
-          "settings": {
-            "label": "PROBLEMEN MET JE ORDER",
-            "link": "",
-            "open_new_tab": false
-          },
-          "blocks": {}
-        },
-        "contact_reason_eLh6Xd": {
-          "type": "contact-reason",
-          "settings": {
-            "label": "PRODUCT & ASSORTIMENT",
-            "link": "",
-            "open_new_tab": false
-          },
-          "blocks": {}
-        },
-        "contact_reason_F8p974": {
-          "type": "contact-reason",
-          "settings": {
-            "label": "B2B & ZAKELIJK",
-            "link": "",
-            "open_new_tab": false
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "contact_reason_GLp44W",
-        "contact_reason_r99gVX",
-        "contact_reason_KHQGcN",
-        "contact_reason_eLh6Xd",
-        "contact_reason_F8p974"
-      ],
-      "name": "Contact with reasons",
-      "settings": {
-        "heading": "CONTACT",
-        "heading_style": "serif",
-        "subheading": "Vind snel het antwoord op je vraag.",
-        "reasons_title": "WAAR KUNNEN WE JE MEE HELPEN?",
-        "reason_columns": 3,
-        "card_bg": "#ffffff",
-        "card_fg": "#0c1a3a",
-        "card_border": "#e6e8ed",
-        "card_radius": 14,
-        "icon_bg": "#0c1a3a",
-        "icon_fg": "#ffffff",
-        "icon_radius": 10,
-        "form_heading": "STUUR EEN BERICHT",
-        "form_intro": "<p>Geen passend antwoord gevonden? Stuur ons een bericht en we komen er snel op terug.</p>",
-        "input_bg": "#ffffff",
-        "input_fg": "#0c1a3a",
-        "input_border": "#d6d8df",
-        "input_radius": 12,
-        "submit_label": "VERZENDEN",
-        "submit_bg": "#0c1a3a",
-        "submit_fg": "#ffffff",
-        "submit_radius": 60,
-        "section_bg_color": "#ffffff",
-        "section_fg_color": "#0c1a3a",
-        "section_muted_color": "#0c1a3a",
-        "section_width": "page-width",
-        "padding-block-start": 80,
-        "padding-block-end": 80
       }
     }
   },
