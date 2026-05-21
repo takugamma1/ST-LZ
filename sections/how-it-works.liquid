@@ -13,8 +13,8 @@
     --hiw-fg: {{ section.settings.text_color }};
     --hiw-radius: {{ section.settings.card_radius }}px;
     --hiw-columns: {{ section.settings.columns_desktop }};
-    --hiw-columns-mobile: {{ section.settings.columns_mobile }};
     --hiw-gap: {{ section.settings.card_gap }}px;
+    --hiw-mobile-card-width: {{ section.settings.mobile_card_width }};
   "
 >
   <div class="hiw-section__inner">
@@ -45,6 +45,7 @@
   .hiw-section {
     position: relative;
     color: var(--hiw-fg, #0c1a3a);
+    container-type: inline-size;
   }
 
   .hiw-section__inner {
@@ -64,18 +65,41 @@
     max-width: 60ch;
   }
 
-  /* Grid: mobile uses columns_mobile, desktop uses columns_desktop */
+  /* Mobile: horizontal scroll-snap carousel. Desktop: grid. */
   .hiw-grid {
-    display: grid;
-    grid-template-columns: repeat(var(--hiw-columns-mobile, 2), minmax(0, 1fr));
+    display: flex;
     gap: var(--hiw-gap, 16px);
     width: 100%;
     margin-top: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--hiw-edge-padding, 16px);
+    padding-inline: var(--hiw-edge-padding, 16px);
+    margin-inline: calc(var(--hiw-edge-padding, 16px) * -1);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .hiw-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hiw-grid > * {
+    flex: 0 0 var(--hiw-mobile-card-width, 80cqw);
+    scroll-snap-align: start;
   }
 
   @media (min-width: 750px) {
     .hiw-grid {
+      display: grid;
       grid-template-columns: repeat(var(--hiw-columns, 4), minmax(0, 1fr));
+      overflow: visible;
+      padding-inline: 0;
+      margin-inline: 0;
+    }
+
+    .hiw-grid > * {
+      flex: initial;
     }
   }
 
@@ -234,13 +258,15 @@
     },
     {
       "type": "select",
-      "id": "columns_mobile",
-      "label": "Columns (mobile)",
+      "id": "mobile_card_width",
+      "label": "Mobile card width",
+      "info": "Width of each card in the mobile horizontal carousel.",
       "options": [
-        { "value": "1", "label": "1" },
-        { "value": "2", "label": "2" }
+        { "value": "85cqw", "label": "One per screen (peek)" },
+        { "value": "65cqw", "label": "~1.5 per screen" },
+        { "value": "48cqw", "label": "Two per screen" }
       ],
-      "default": "2"
+      "default": "65cqw"
     },
     {
       "type": "range",
