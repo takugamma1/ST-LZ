@@ -326,92 +326,6 @@
         "padding-block-end": 0
       }
     },
-    "hero_GEg8TR": {
-      "type": "hero",
-      "blocks": {
-        "how_it_works_step_LV6PtK": {
-          "type": "how-it-works-step",
-          "name": "How-it-works step",
-          "settings": {
-            "image": "shopify://shop_images/Screenshot_2026-05-21_at_18.22.52.png",
-            "step_number": "1",
-            "show_step_number": true,
-            "title": "Kies je product",
-            "description": "Bekijk het assortiment en kies wat past bij jouw zaak.",
-            "tint_color": "#f3f5f8"
-          },
-          "blocks": {}
-        },
-        "how_it_works_step_VBjJqa": {
-          "type": "how-it-works-step",
-          "name": "How-it-works step",
-          "settings": {
-            "image": "shopify://shop_images/Screenshot_2026-05-21_at_18.23.14.png",
-            "step_number": "2",
-            "show_step_number": true,
-            "title": "Kies je product",
-            "description": "Bekijk het assortiment en kies wat past bij jouw zaak.",
-            "tint_color": "#f3f5f8"
-          },
-          "blocks": {}
-        },
-        "how_it_works_step_akjB4q": {
-          "type": "how-it-works-step",
-          "name": "How-it-works step",
-          "settings": {
-            "step_number": "3",
-            "show_step_number": true,
-            "title": "Kies je product",
-            "description": "Bekijk het assortiment en kies wat past bij jouw zaak.",
-            "tint_color": "#f3f5f8"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "how_it_works_step_LV6PtK",
-        "how_it_works_step_VBjJqa",
-        "how_it_works_step_akjB4q"
-      ],
-      "name": "t:names.hero",
-      "settings": {
-        "media_type_1": "image",
-        "media_type_2": "image",
-        "stack_media_on_mobile": false,
-        "custom_mobile_media": false,
-        "media_type_1_mobile": "image",
-        "media_type_2_mobile": "image",
-        "link": "",
-        "open_in_new_tab": false,
-        "content_direction": "row",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 16,
-        "section_width": "page-width",
-        "section_height": "large",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-740e7589-0490-48ab-abaa-891af301a071",
-        "toggle_overlay": true,
-        "overlay_color": "#ffffff",
-        "enable_ripped_edge": false,
-        "rip_image_url": "",
-        "rip_height": 12,
-        "rip_offset": -40,
-        "rip_angle": 0,
-        "rip_scale": 100,
-        "rip_flip_horizontal": false,
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 40,
-        "padding-block-end": 40
-      }
-    },
     "hero_xWh8zU": {
       "type": "hero",
       "name": "t:names.hero",
@@ -453,12 +367,172 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
+    },
+    "how_it_works_HzW4yh": {
+      "type": "how-it-works",
+      "blocks": {
+        "how_it_works_step_agdEGp": {
+          "type": "how-it-works-step",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_-_2026-05-21T164256.346.png",
+            "step_number": "1",
+            "title": "Kies je product",
+            "tint_color": "#333333"
+          },
+          "blocks": {}
+        },
+        "how_it_works_step_YcWBpT": {
+          "type": "how-it-works-step",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2026-05-21_at_18.22.52.png",
+            "step_number": "2",
+            "title": "Upload je logo",
+            "tint_color": "#333333"
+          },
+          "blocks": {}
+        },
+        "how_it_works_step_Vk4LYg": {
+          "type": "how-it-works-step",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2026-05-21_at_18.23.14.png",
+            "step_number": "3",
+            "title": "Wij printen het",
+            "tint_color": "#333333"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "how_it_works_step_agdEGp",
+        "how_it_works_step_YcWBpT",
+        "how_it_works_step_Vk4LYg"
+      ],
+      "name": "How it works",
+      "settings": {
+        "heading": "HOW IT WORKS",
+        "heading_size": "md",
+        "heading_color": "#0c1a3a",
+        "heading_solid": true,
+        "heading_stroke": 2,
+        "subheading": "Vier eenvoudige stappen om je gepersonaliseerde shirt te bestellen.",
+        "columns_desktop": 3,
+        "mobile_card_width": "65cqw",
+        "card_gap": 16,
+        "image_aspect": "3 / 2",
+        "image_radius": 8,
+        "gradient_percent": 40,
+        "gradient_opacity": 70,
+        "section_bg_color": "#ffffff",
+        "text_color": "#0c1a3a",
+        "section_width": "page-width",
+        "padding-block-start": 64,
+        "padding-block-end": 160
+      }
+    },
+    "hero_kdeKK9": {
+      "type": "hero",
+      "blocks": {
+        "custom_liquid_ebXxeb": {
+          "type": "custom-liquid",
+          "name": "t:names.custom_liquid",
+          "settings": {
+            "custom_liquid": "{% render 'outlined-heading', text: 'THE STËLZ COMMUNITY', color: '#071E41', size: 'xl' %}"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "custom_liquid_ebXxeb"
+      ],
+      "name": "t:names.hero",
+      "settings": {
+        "media_type_1": "image",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": false,
+        "media_type_1_mobile": "image",
+        "media_type_2_mobile": "image",
+        "link": "",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "auto",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-1",
+        "toggle_overlay": true,
+        "overlay_color": "#ffffff",
+        "enable_ripped_edge": false,
+        "rip_image_url": "",
+        "rip_height": 12,
+        "rip_offset": -40,
+        "rip_angle": 0,
+        "rip_scale": 100,
+        "rip_flip_horizontal": false,
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
+    },
+    "hero_ixTf8L": {
+      "type": "hero",
+      "name": "t:names.hero",
+      "settings": {
+        "media_type_1": "image",
+        "image_1": "shopify://shop_images/Untitled_design_-_2026-05-21T183332.450.png",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": true,
+        "media_type_1_mobile": "image",
+        "image_1_mobile": "shopify://shop_images/Screenshot_2026-05-21_at_18.28.40.png",
+        "media_type_2_mobile": "image",
+        "link": "",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "medium",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-5",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "enable_ripped_edge": false,
+        "rip_image_url": "",
+        "rip_height": 12,
+        "rip_offset": -40,
+        "rip_angle": 0,
+        "rip_scale": 100,
+        "rip_flip_horizontal": false,
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
     }
   },
   "order": [
     "hero_iMhTqA",
     "main",
-    "hero_GEg8TR",
-    "hero_xWh8zU"
+    "hero_xWh8zU",
+    "how_it_works_HzW4yh",
+    "hero_kdeKK9",
+    "hero_ixTf8L"
   ]
 }
