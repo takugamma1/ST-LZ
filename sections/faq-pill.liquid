@@ -3,6 +3,8 @@
   assign heading_class = 'faq-pill__heading faq-pill__heading--' | append: section.settings.heading_style
 -%}
 
+<div class="section-background faq-pill__background" style="background: {{ section.settings.section_bg_color }};"></div>
+
 <div
   class="
     faq-pill
@@ -41,9 +43,7 @@
 {% stylesheet %}
   /* Section background fills full width (not just the content) */
   .faq-pill {
-    background: var(--faq-section-bg, transparent);
     position: relative;
-    overflow: hidden;
   }
 
   .faq-pill__inner {
