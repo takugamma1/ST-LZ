@@ -104,12 +104,12 @@
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
-        "image_1": "shopify://shop_images/Untitled_design_-_2026-05-21T161145.914.png",
+        "image_1": "shopify://shop_images/Untitled_design_-_2026-05-21T163111.453.png",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": true,
         "media_type_1_mobile": "image",
-        "image_1_mobile": "shopify://shop_images/Untitled_design_77.png",
+        "image_1_mobile": "shopify://shop_images/Untitled_design_-_2026-05-21T163237.648.png",
         "media_type_2_mobile": "image",
         "link": "",
         "open_in_new_tab": false,
@@ -235,6 +235,27 @@
         "gradient_direction": "to top",
         "padding-block-start": 80,
         "padding-block-end": 0
+      }
+    },
+    "feature_spotlight_GLEMQp": {
+      "type": "feature-spotlight",
+      "name": "Feature spotlight",
+      "settings": {
+        "kicker": "@CUSTOM95 & @STËLZ",
+        "heading": "STËLZ Horeca Shirt met jouw logo",
+        "body": "<p>Het horeca shirt nu beschikbaar met jouw logo.</p>",
+        "button_label": "Nu aanpassen",
+        "button_link": "shopify://collections/essentials",
+        "button_open_new_tab": false,
+        "button_style": "outline",
+        "image": "shopify://shop_images/Untitled_design_-_2026-05-21T164256.346.png",
+        "image_radius": 28,
+        "media_position": "right",
+        "column_gap": 64,
+        "section_width": "page-width",
+        "color_scheme": "",
+        "padding-block-start": 64,
+        "padding-block-end": 64
       }
     },
     "section_ghDEWX": {
@@ -378,6 +399,7 @@
         "image_tQ63yA",
         "group_fFE7dM"
       ],
+      "disabled": true,
       "name": "t:names.image_with_text",
       "settings": {
         "content_direction": "row",
@@ -680,156 +702,6 @@
         "padding-block-end": 48
       }
     },
-    "marquee_9fTgge": {
-      "type": "marquee",
-      "blocks": {
-        "icon_ATM3cW": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "none",
-            "image_upload": "shopify://shop_images/sterk-logo.png",
-            "width": 100,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "icon_HMazeg": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "none",
-            "image_upload": "shopify://shop_images/Vd2ocWOjo9ot.png",
-            "width": 52,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "icon_YtjJyM": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "none",
-            "image_upload": "shopify://shop_images/Crisp-logo.png",
-            "width": 76,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "icon_twxWVb": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "none",
-            "image_upload": "shopify://shop_images/Jumbo_Logo_svg.png",
-            "width": 60,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "icon_gXt6DB": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "none",
-            "image_upload": "shopify://shop_images/Picnic_logo_svg.png",
-            "width": 40,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "icon_Veatb4": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "none",
-            "image_upload": "shopify://shop_images/Logo_Gorillas__delivery_company__color_svg.png",
-            "width": 50,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "icon_7JMfGc": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "none",
-            "image_upload": "shopify://shop_images/Logo_GG.avif",
-            "width": 72,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "icon_F4UQBT": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "none",
-            "image_upload": "shopify://shop_images/Albert_Heijn_Logo.svg",
-            "width": 28,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "text_cFDxk9": {
-          "type": "text",
-          "settings": {
-            "text": "",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "custom",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "tight",
-            "letter_spacing": "tight",
-            "case": "none",
-            "wrap": "nowrap",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "icon_ATM3cW",
-        "icon_HMazeg",
-        "icon_YtjJyM",
-        "icon_twxWVb",
-        "icon_gXt6DB",
-        "icon_Veatb4",
-        "icon_7JMfGc",
-        "icon_F4UQBT",
-        "text_cFDxk9"
-      ],
-      "name": "t:names.marquee_section",
-      "settings": {
-        "movement_direction": "normal",
-        "color_scheme": "scheme-740e7589-0490-48ab-abaa-891af301a071",
-        "padding-block-start": 24,
-        "padding-block-end": 24,
-        "gap_between_elements": 24,
-        "section_min_height": 20,
-        "background_image": "shopify://shop_images/Untitled_design_80.png",
-        "background_size": "cover",
-        "background_repeat": "repeat",
-        "background_position": "right center"
-      }
-    },
     "section_iaimAX": {
       "type": "section",
       "blocks": {
@@ -1122,6 +994,48 @@
         "padding-block-end": 48
       }
     },
+    "hero_yp6X3r": {
+      "type": "hero",
+      "name": "t:names.hero",
+      "settings": {
+        "media_type_1": "image",
+        "image_1": "shopify://shop_images/Untitled_design_83.png",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": false,
+        "media_type_1_mobile": "image",
+        "media_type_2_mobile": "image",
+        "link": "",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "auto",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-740e7589-0490-48ab-abaa-891af301a071",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "enable_ripped_edge": false,
+        "rip_image_url": "",
+        "rip_height": 12,
+        "rip_offset": -40,
+        "rip_angle": 0,
+        "rip_scale": 100,
+        "rip_flip_horizontal": false,
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "section_tc9R3C": {
       "type": "section",
       "blocks": {
@@ -1200,7 +1114,7 @@
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
-        "color_scheme": "scheme-740e7589-0490-48ab-abaa-891af301a071",
+        "color_scheme": "scheme-1",
         "background_media": "none",
         "video_position": "cover",
         "background_image_position": "cover",
@@ -1216,58 +1130,167 @@
         "padding-block-end": 32
       }
     },
-    "hero_yp6X3r": {
-      "type": "hero",
-      "name": "t:names.hero",
+    "marquee_9fTgge": {
+      "type": "marquee",
+      "blocks": {
+        "icon_ATM3cW": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "none",
+            "image_upload": "shopify://shop_images/sterk-logo.png",
+            "width": 100,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "icon_HMazeg": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "none",
+            "image_upload": "shopify://shop_images/Vd2ocWOjo9ot.png",
+            "width": 52,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "icon_YtjJyM": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "none",
+            "image_upload": "shopify://shop_images/Crisp-logo.png",
+            "width": 76,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "icon_twxWVb": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "none",
+            "image_upload": "shopify://shop_images/Jumbo_Logo_svg.png",
+            "width": 60,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "icon_gXt6DB": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "none",
+            "image_upload": "shopify://shop_images/Picnic_logo_svg.png",
+            "width": 40,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "icon_Veatb4": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "none",
+            "image_upload": "shopify://shop_images/Logo_Gorillas__delivery_company__color_svg.png",
+            "width": 50,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "icon_7JMfGc": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "none",
+            "image_upload": "shopify://shop_images/Logo_GG.avif",
+            "width": 72,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "icon_F4UQBT": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "none",
+            "image_upload": "shopify://shop_images/Albert_Heijn_Logo.svg",
+            "width": 28,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "text_cFDxk9": {
+          "type": "text",
+          "settings": {
+            "text": "",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "tight",
+            "letter_spacing": "tight",
+            "case": "none",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "icon_ATM3cW",
+        "icon_HMazeg",
+        "icon_YtjJyM",
+        "icon_twxWVb",
+        "icon_gXt6DB",
+        "icon_Veatb4",
+        "icon_7JMfGc",
+        "icon_F4UQBT",
+        "text_cFDxk9"
+      ],
+      "name": "t:names.marquee_section",
       "settings": {
-        "media_type_1": "image",
-        "image_1": "shopify://shop_images/Untitled_design_83.png",
-        "media_type_2": "image",
-        "stack_media_on_mobile": false,
-        "custom_mobile_media": false,
-        "media_type_1_mobile": "image",
-        "media_type_2_mobile": "image",
-        "link": "",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 16,
-        "section_width": "page-width",
-        "section_height": "auto",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-740e7589-0490-48ab-abaa-891af301a071",
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "enable_ripped_edge": false,
-        "rip_image_url": "",
-        "rip_height": 12,
-        "rip_offset": -40,
-        "rip_angle": 0,
-        "rip_scale": 100,
-        "rip_flip_horizontal": false,
-        "overlay_style": "gradient",
-        "gradient_direction": "to top",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "movement_direction": "normal",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 24,
+        "padding-block-end": 24,
+        "gap_between_elements": 24,
+        "section_min_height": 20,
+        "background_image": "shopify://shop_images/Untitled_design_80.png",
+        "background_size": "cover",
+        "background_repeat": "repeat",
+        "background_position": "right center"
       }
     }
   },
   "order": [
     "hero_jVaWmY",
     "section_9VKAkP",
+    "feature_spotlight_GLEMQp",
     "section_ghDEWX",
     "hero_wMTr8y",
     "product_list_gTfxYf",
-    "marquee_9fTgge",
     "section_iaimAX",
+    "hero_yp6X3r",
     "section_tc9R3C",
-    "hero_yp6X3r"
+    "marquee_9fTgge"
   ]
 }
