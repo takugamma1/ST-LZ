@@ -11,10 +11,13 @@
   style="
     {% render 'spacing-style', settings: section.settings %}
     --hiw-fg: {{ section.settings.text_color }};
-    --hiw-radius: {{ section.settings.card_radius }}px;
+    --hiw-image-radius: {{ section.settings.image_radius }}px;
     --hiw-columns: {{ section.settings.columns_desktop }};
     --hiw-gap: {{ section.settings.card_gap }}px;
     --hiw-mobile-card-width: {{ section.settings.mobile_card_width }};
+    --hiw-aspect: {{ section.settings.image_aspect }};
+    --hiw-gradient-percent: {{ section.settings.gradient_percent }}%;
+    --hiw-gradient-opacity: {{ section.settings.gradient_opacity | divided_by: 100.0 }};
   "
 >
   <div class="hiw-section__inner">
@@ -103,26 +106,21 @@
     }
   }
 
-  /* --- Step card ------------------------------------------------ */
+  /* --- Step ------------------------------------------------ */
 
   .hiw-step {
     display: flex;
     flex-direction: column;
-    border-radius: var(--hiw-radius, 18px);
-    overflow: hidden;
-    background:
-      linear-gradient(
-        to bottom,
-        var(--hiw-step-tint, #f3f5f8) 0%,
-        color-mix(in srgb, var(--hiw-step-tint, #f3f5f8) 35%, #ffffff) 100%
-      );
+    background: transparent;
     height: 100%;
   }
 
   .hiw-step__media {
-    aspect-ratio: 3 / 2;
+    position: relative;
+    aspect-ratio: var(--hiw-aspect, 3 / 2);
     overflow: hidden;
-    background: rgb(0 0 0 / 0.04);
+    border-radius: var(--hiw-image-radius, 8px);
+    background: transparent;
   }
 
   .hiw-step__image {
@@ -136,45 +134,38 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
     font-size: clamp(2rem, 8cqi, 4rem);
     font-weight: 900;
     color: var(--hiw-fg, #0c1a3a);
     opacity: 0.25;
+    background: rgb(0 0 0 / 0.04);
   }
 
-  .hiw-step__body {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 16px 16px 20px;
-    text-align: left;
-  }
-
-  .hiw-step__number {
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    opacity: 0.55;
-    color: var(--hiw-fg, #0c1a3a);
+  .hiw-step__gradient {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: var(--hiw-gradient-percent, 40%);
+    background: linear-gradient(
+      to top,
+      var(--hiw-step-tint, transparent),
+      transparent
+    );
+    opacity: var(--hiw-gradient-opacity, 1);
+    pointer-events: none;
   }
 
   .hiw-step__title {
-    margin: 0;
-    font-size: clamp(0.95rem, 1.6cqi, 1.15rem);
+    margin: 14px 0 0;
+    font-size: clamp(0.85rem, 1.4cqi, 1rem);
     font-weight: 800;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--hiw-fg, #0c1a3a);
     line-height: 1.2;
-  }
-
-  .hiw-step__description {
-    margin: 4px 0 0;
-    font-size: 0.85rem;
-    line-height: 1.45;
-    color: var(--hiw-fg, #0c1a3a);
-    opacity: 0.78;
+    text-align: center;
   }
 {% endstylesheet %}
 
@@ -271,7 +262,7 @@
     {
       "type": "range",
       "id": "card_gap",
-      "label": "Gap between cards",
+      "label": "Gap between steps",
       "min": 0,
       "max": 48,
       "step": 2,
@@ -279,14 +270,55 @@
       "default": 16
     },
     {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect",
+      "label": "Image aspect ratio",
+      "options": [
+        { "value": "3 / 2", "label": "3:2 (landscape)" },
+        { "value": "1 / 1", "label": "1:1 (square)" },
+        { "value": "4 / 5", "label": "4:5 (portrait)" },
+        { "value": "16 / 9", "label": "16:9 (wide)" }
+      ],
+      "default": "3 / 2"
+    },
+    {
       "type": "range",
-      "id": "card_radius",
-      "label": "Card corner radius",
+      "id": "image_radius",
+      "label": "Image corner radius",
       "min": 0,
       "max": 32,
       "step": 1,
       "unit": "px",
-      "default": 18
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Bottom gradient"
+    },
+    {
+      "type": "range",
+      "id": "gradient_percent",
+      "label": "Gradient height",
+      "info": "How much of the image bottom is covered by the gradient.",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "gradient_opacity",
+      "label": "Gradient strength",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 70
     },
     {
       "type": "header",
@@ -344,10 +376,10 @@
       "name": "How it works",
       "category": "Text",
       "blocks": [
-        { "type": "how-it-works-step", "settings": { "title": "Kies je product", "description": "Selecteer een shirt, tank top of hoodie uit het assortiment.", "tint_color": "#f5e7d8" } },
-        { "type": "how-it-works-step", "settings": { "title": "Upload je logo", "description": "Voeg je bedrijfslogo toe in onze editor en bekijk een preview.", "tint_color": "#e0e9f5" } },
-        { "type": "how-it-works-step", "settings": { "title": "Wij printen het", "description": "We printen je ontwerp op de gekozen producten met zorg en precisie.", "tint_color": "#e3f0e0" } },
-        { "type": "how-it-works-step", "settings": { "title": "Geleverd aan huis", "description": "Binnen enkele werkdagen klaar voor gebruik in jouw zaak.", "tint_color": "#f3e3ee" } }
+        { "type": "how-it-works-step", "settings": { "title": "Kies je product", "tint_color": "#f5d6b3" } },
+        { "type": "how-it-works-step", "settings": { "title": "Upload je logo", "tint_color": "#cfe0d2" } },
+        { "type": "how-it-works-step", "settings": { "title": "Wij printen het", "tint_color": "#f5e3b3" } },
+        { "type": "how-it-works-step", "settings": { "title": "Geleverd aan huis", "tint_color": "#d6dbe8" } }
       ]
     }
   ]
