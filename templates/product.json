@@ -9,103 +9,6 @@
  */
 {
   "sections": {
-    "hero_GEg8TR": {
-      "type": "hero",
-      "blocks": {
-        "how_it_works_step_LV6PtK": {
-          "type": "how-it-works-step",
-          "name": "How-it-works step",
-          "settings": {
-            "step_number": "",
-            "show_step_number": true,
-            "title": "Kies je product",
-            "description": "Bekijk het assortiment en kies wat past bij jouw zaak.",
-            "tint_color": "#f3f5f8"
-          },
-          "blocks": {}
-        },
-        "how_it_works_step_VBjJqa": {
-          "type": "how-it-works-step",
-          "name": "How-it-works step",
-          "settings": {
-            "step_number": "",
-            "show_step_number": true,
-            "title": "Kies je product",
-            "description": "Bekijk het assortiment en kies wat past bij jouw zaak.",
-            "tint_color": "#f3f5f8"
-          },
-          "blocks": {}
-        },
-        "how_it_works_step_akjB4q": {
-          "type": "how-it-works-step",
-          "name": "How-it-works step",
-          "settings": {
-            "step_number": "",
-            "show_step_number": true,
-            "title": "Kies je product",
-            "description": "Bekijk het assortiment en kies wat past bij jouw zaak.",
-            "tint_color": "#f3f5f8"
-          },
-          "blocks": {}
-        },
-        "how_it_works_step_hTwfXj": {
-          "type": "how-it-works-step",
-          "name": "How-it-works step",
-          "settings": {
-            "step_number": "",
-            "show_step_number": true,
-            "title": "Kies je product",
-            "description": "Bekijk het assortiment en kies wat past bij jouw zaak.",
-            "tint_color": "#f3f5f8"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "how_it_works_step_LV6PtK",
-        "how_it_works_step_VBjJqa",
-        "how_it_works_step_akjB4q",
-        "how_it_works_step_hTwfXj"
-      ],
-      "name": "t:names.hero",
-      "settings": {
-        "media_type_1": "image",
-        "media_type_2": "image",
-        "stack_media_on_mobile": false,
-        "custom_mobile_media": false,
-        "media_type_1_mobile": "image",
-        "media_type_2_mobile": "image",
-        "link": "",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 16,
-        "section_width": "page-width",
-        "section_height": "large",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-1",
-        "toggle_overlay": true,
-        "overlay_color": "#ffffff",
-        "enable_ripped_edge": false,
-        "rip_image_url": "",
-        "rip_height": 12,
-        "rip_offset": -40,
-        "rip_angle": 0,
-        "rip_scale": 100,
-        "rip_flip_horizontal": false,
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 40,
-        "padding-block-end": 40
-      }
-    },
     "hero_iMhTqA": {
       "type": "hero",
       "name": "t:names.hero",
@@ -423,6 +326,92 @@
         "padding-block-end": 0
       }
     },
+    "hero_GEg8TR": {
+      "type": "hero",
+      "blocks": {
+        "how_it_works_step_LV6PtK": {
+          "type": "how-it-works-step",
+          "name": "How-it-works step",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2026-05-21_at_18.22.52.png",
+            "step_number": "1",
+            "show_step_number": true,
+            "title": "Kies je product",
+            "description": "Bekijk het assortiment en kies wat past bij jouw zaak.",
+            "tint_color": "#f3f5f8"
+          },
+          "blocks": {}
+        },
+        "how_it_works_step_VBjJqa": {
+          "type": "how-it-works-step",
+          "name": "How-it-works step",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2026-05-21_at_18.23.14.png",
+            "step_number": "2",
+            "show_step_number": true,
+            "title": "Kies je product",
+            "description": "Bekijk het assortiment en kies wat past bij jouw zaak.",
+            "tint_color": "#f3f5f8"
+          },
+          "blocks": {}
+        },
+        "how_it_works_step_akjB4q": {
+          "type": "how-it-works-step",
+          "name": "How-it-works step",
+          "settings": {
+            "step_number": "3",
+            "show_step_number": true,
+            "title": "Kies je product",
+            "description": "Bekijk het assortiment en kies wat past bij jouw zaak.",
+            "tint_color": "#f3f5f8"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "how_it_works_step_LV6PtK",
+        "how_it_works_step_VBjJqa",
+        "how_it_works_step_akjB4q"
+      ],
+      "name": "t:names.hero",
+      "settings": {
+        "media_type_1": "image",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": false,
+        "media_type_1_mobile": "image",
+        "media_type_2_mobile": "image",
+        "link": "",
+        "open_in_new_tab": false,
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "large",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-740e7589-0490-48ab-abaa-891af301a071",
+        "toggle_overlay": true,
+        "overlay_color": "#ffffff",
+        "enable_ripped_edge": false,
+        "rip_image_url": "",
+        "rip_height": 12,
+        "rip_offset": -40,
+        "rip_angle": 0,
+        "rip_scale": 100,
+        "rip_flip_horizontal": false,
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
+    },
     "hero_xWh8zU": {
       "type": "hero",
       "name": "t:names.hero",
@@ -467,9 +456,9 @@
     }
   },
   "order": [
-    "hero_GEg8TR",
     "hero_iMhTqA",
     "main",
+    "hero_GEg8TR",
     "hero_xWh8zU"
   ]
 }
