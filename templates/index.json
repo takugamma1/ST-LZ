@@ -1092,100 +1092,6 @@
         "padding-block-end": 0
       }
     },
-    "section_tc9R3C": {
-      "type": "section",
-      "blocks": {
-        "text_AzmdKW": {
-          "type": "text",
-          "name": "t:names.heading",
-          "settings": {
-            "text": "<h2>Neem contact met ons op</h2>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "contact_form_YRh8dC": {
-          "type": "contact-form",
-          "settings": {
-            "width": "custom",
-            "custom_width": 50,
-            "width_mobile": "custom",
-            "custom_width_mobile": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "submit-button": {
-              "type": "contact-form-submit-button",
-              "static": true,
-              "settings": {
-                "label": "Indienen",
-                "style_class": "button",
-                "width": "custom",
-                "custom_width": 100,
-                "width_mobile": "custom",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": []
-        }
-      },
-      "block_order": [
-        "text_AzmdKW",
-        "contact_form_YRh8dC"
-      ],
-      "name": "t:names.contact_form",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-end",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 32,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-1",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 32,
-        "padding-block-end": 32
-      }
-    },
     "marquee_9fTgge": {
       "type": "marquee",
       "blocks": {
@@ -1335,6 +1241,94 @@
         "background_repeat": "repeat",
         "background_position": "right center"
       }
+    },
+    "contact_with_reasons_BTTCde": {
+      "type": "contact-with-reasons",
+      "blocks": {
+        "contact_reason_GLp44W": {
+          "type": "contact-reason",
+          "settings": {
+            "label": "BESTELLEN & BETALEN",
+            "link": "",
+            "open_new_tab": false
+          },
+          "blocks": {}
+        },
+        "contact_reason_r99gVX": {
+          "type": "contact-reason",
+          "settings": {
+            "label": "BEZORGING & RETOUREN",
+            "link": "",
+            "open_new_tab": false
+          },
+          "blocks": {}
+        },
+        "contact_reason_KHQGcN": {
+          "type": "contact-reason",
+          "settings": {
+            "label": "PROBLEMEN MET JE ORDER",
+            "link": "",
+            "open_new_tab": false
+          },
+          "blocks": {}
+        },
+        "contact_reason_eLh6Xd": {
+          "type": "contact-reason",
+          "settings": {
+            "label": "PRODUCT & ASSORTIMENT",
+            "link": "",
+            "open_new_tab": false
+          },
+          "blocks": {}
+        },
+        "contact_reason_F8p974": {
+          "type": "contact-reason",
+          "settings": {
+            "label": "B2B & ZAKELIJK",
+            "link": "",
+            "open_new_tab": false
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "contact_reason_GLp44W",
+        "contact_reason_r99gVX",
+        "contact_reason_KHQGcN",
+        "contact_reason_eLh6Xd",
+        "contact_reason_F8p974"
+      ],
+      "name": "Contact with reasons",
+      "settings": {
+        "heading": "CONTACT",
+        "heading_style": "serif",
+        "subheading": "Vind snel het antwoord op je vraag.",
+        "reasons_title": "WAAR KUNNEN WE JE MEE HELPEN?",
+        "reason_columns": 3,
+        "card_bg": "#ffffff",
+        "card_fg": "#0c1a3a",
+        "card_border": "#e6e8ed",
+        "card_radius": 14,
+        "icon_bg": "#0c1a3a",
+        "icon_fg": "#ffffff",
+        "icon_radius": 10,
+        "form_heading": "STUUR EEN BERICHT",
+        "form_intro": "<p>Geen passend antwoord gevonden? Stuur ons een bericht en we komen er snel op terug.</p>",
+        "input_bg": "#ffffff",
+        "input_fg": "#0c1a3a",
+        "input_border": "#d6d8df",
+        "input_radius": 12,
+        "submit_label": "VERZENDEN",
+        "submit_bg": "#0c1a3a",
+        "submit_fg": "#ffffff",
+        "submit_radius": 60,
+        "section_bg_color": "#ffffff",
+        "section_fg_color": "#0c1a3a",
+        "section_muted_color": "#0c1a3a",
+        "section_width": "page-width",
+        "padding-block-start": 80,
+        "padding-block-end": 80
+      }
     }
   },
   "order": [
@@ -1347,7 +1341,7 @@
     "faq_pill_cYpbc4",
     "section_iaimAX",
     "hero_yp6X3r",
-    "section_tc9R3C",
+    "contact_with_reasons_BTTCde",
     "marquee_9fTgge"
   ]
 }
