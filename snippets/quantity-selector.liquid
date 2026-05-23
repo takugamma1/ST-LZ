@@ -25,11 +25,7 @@
   if min != null
     assign min_quantity = min
   else
-    assign moq_default = settings.min_order_quantity | default: 1
-    assign min_quantity = variant.quantity_rule.min | default: moq_default
-    if min_quantity < moq_default
-      assign min_quantity = moq_default
-    endif
+    assign min_quantity = variant.quantity_rule.min | default: 1
   endif
 %}
 
@@ -65,10 +61,10 @@
     <input
       type="number"
       name="{% if line_index %}updates[]{% else %}quantity{% endif %}"
-      value="{{ in_cart_quantity | default: min_quantity }}"
+      value="{{ in_cart_quantity | default: variant.quantity_rule.min | default: 1 }}"
       data-cart-quantity="{{ cart | item_count_for_variant: variant.id }}"
       min="{{ min_quantity }}"
-      data-min="{{ min_quantity }}"
+      data-min="{{ variant.quantity_rule.min | default: 1 }}"
       on:blur="/setQuantity"
       on:focus="/selectInputValue"
       ref="quantityInput"

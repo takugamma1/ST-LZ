@@ -257,13 +257,29 @@
   </div>
 </div>
 
+{%- liquid
+  assign cart_moq = settings.min_order_quantity | default: 1
+  assign moq_remaining = cart_moq | minus: cart.item_count
+  assign below_moq = false
+  if cart_moq > 1 and cart != empty and cart.item_count < cart_moq
+    assign below_moq = true
+  endif
+-%}
+
+{%- if below_moq -%}
+  <div class="cart__moq-warning" role="status" aria-live="polite">
+    <strong>Minimaal {{ cart_moq }} stuks per bestelling.</strong>
+    <span>Je hebt nog {{ moq_remaining }} {% if moq_remaining == 1 %}stuk{% else %}stuks{% endif %} nodig om af te rekenen.</span>
+  </div>
+{%- endif -%}
+
 <div class="cart__ctas">
   <button
     type="submit"
     id="checkout"
     class="cart__checkout-button button"
     name="checkout"
-    {% if cart == empty %}
+    {% if cart == empty or below_moq %}
       disabled
     {% endif %}
     form="cart-form"
@@ -271,7 +287,7 @@
     {{ 'content.checkout' | t }}
   </button>
 
-  {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
+  {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons and below_moq == false %}
     <div
       class="
         additional-checkout-buttons
@@ -284,6 +300,24 @@
 </div>
 
 {% stylesheet %}
+  .cart__moq-warning {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 16px;
+    margin-block-end: var(--gap-sm, 12px);
+    background: rgb(245 197 24 / 0.12);
+    border: 1px solid rgb(195 130 0 / 0.35);
+    border-radius: 12px;
+    color: #6b4a00;
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .cart__moq-warning strong {
+    font-weight: 700;
+  }
+
   .cart-actions {
     display: flex;
     flex-direction: column;
