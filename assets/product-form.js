@@ -511,27 +511,13 @@ class ProductFormComponent extends Component {
     // Update the variant ID
     variantId.value = event.detail.resource?.id ?? '';
 
-    // Notify third-party apps (e.g. TeeInBlue customizer) that the
-    // variant changed. Setting .value directly doesn't fire any event,
-    // so apps watching the hidden input via change/input listeners never
-    // pick up the new variant and keep rendering the old mockup until a
-    // full page refresh. Dispatch both modern (input/change) and legacy
-    // (variant:change on the form) events so older integrations work too.
-    try {
-      variantId.dispatchEvent(new Event('input', { bubbles: true }));
-      variantId.dispatchEvent(new Event('change', { bubbles: true }));
-      const form = variantId.closest('form');
-      if (form) {
-        form.dispatchEvent(
-          new CustomEvent('variant:change', {
-            bubbles: true,
-            detail: { variant: event.detail.resource },
-          })
-        );
-      }
-    } catch (_) {
-      // Ignore — purely informational events for third-party listeners.
-    }
+    // NOTE: we deliberately do NOT dispatch input/change/variant:change
+    // events here. Some third-party customizers (TeeInBlue) react to
+    // those by clearing their internal canvas state, wiping the user's
+    // uploaded logo. For products whose mockup doesn't differ between
+    // variants (e.g. size variants of the same shirt) the silent update
+    // is preferable: the variant id stays correct for add-to-cart while
+    // the customizer keeps the logo intact.
     const { addToCartButtonContainer: currentAddToCartButtonContainer, acceleratedCheckoutButtonContainer } = this.refs;
     const currentAddToCartButton = currentAddToCartButtonContainer?.refs.addToCartButton;
 
