@@ -1,9 +1,10 @@
 {% style %}
-  /* Custom fonts: Plantin for headings, Helsinki for body */
+  /* Custom fonts: Plantin (BoldCondensed) for headings, Helsinki for body.
+     All weights served from the theme's assets/ folder so they stay in sync
+     with this codebase rather than depending on Shopify Files. */
   @font-face {
     font-family: "Plantin";
-    src: url('https://cdn.shopify.com/s/files/1/0975/9247/5912/files/PlantinStd-Bold.otf?v=1767836131')
-      format("opentype");
+    src: url('{{ "PlantinStd-BoldCondensed.otf" | asset_url }}') format("opentype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -11,9 +12,50 @@
 
   @font-face {
     font-family: "Helsinki";
-    src: url('https://cdn.shopify.com/s/files/1/0975/9247/5912/files/Helsinki-Regular.otf?v=1767842086')
-      format("opentype");
+    src: url('{{ "Helsinki-Hairline.otf" | asset_url }}') format("opentype");
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Helsinki";
+    src: url('{{ "Helsinki-Light.otf" | asset_url }}') format("opentype");
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Helsinki";
+    src: url('{{ "Helsinki-Book.otf" | asset_url }}') format("opentype");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Helsinki";
+    src: url('{{ "Helsinki-Regular.otf" | asset_url }}') format("opentype");
     font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Helsinki";
+    src: url('{{ "Helsinki-Bold.otf" | asset_url }}') format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Helsinki";
+    src: url('{{ "Helsinki-Fat.otf" | asset_url }}') format("opentype");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Helsinki";
+    src: url('{{ "Helsinki-Black.otf" | asset_url }}') format("opentype");
+    font-weight: 900;
     font-style: normal;
     font-display: swap;
   }
