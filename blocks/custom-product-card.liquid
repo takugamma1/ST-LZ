@@ -121,7 +121,7 @@
   </div>
 
   {%- if block.settings.show_button -%}
-    {%- if product != blank -%}
+    {%- if block.settings.button_action == 'add_to_cart' and product != blank -%}
       <product-form-component
         data-section-id="{{ section.id }}"
         data-product-id="{{ product.id }}"
@@ -159,6 +159,16 @@
           </button>
         {%- endform -%}
       </product-form-component>
+    {%- elsif product != blank -%}
+      <a
+        href="{{ card_url }}"
+        class="custom-product-card__button custom-product-card__button--link"
+      >
+        <span class="custom-product-card__button-label">{{ add_label }}</span>
+        <span aria-hidden="true" class="custom-product-card__button-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg>
+        </span>
+      </a>
     {%- else -%}
       <button class="custom-product-card__button" type="button" disabled>
         <span class="custom-product-card__button-label">{{ add_label }}</span>
@@ -307,6 +317,13 @@
     z-index: 2;
   }
 
+  .custom-product-card__button--link {
+    margin-top: auto;
+    position: relative;
+    z-index: 2;
+    text-decoration: none;
+  }
+
   .custom-product-card__button {
     width: 100%;
     border: none;
@@ -430,19 +447,29 @@
     },
     {
       "type": "header",
-      "content": "Add to cart button"
+      "content": "Button"
     },
     {
       "type": "checkbox",
       "id": "show_button",
-      "label": "Show add to cart button",
+      "label": "Show button",
       "default": true
+    },
+    {
+      "type": "select",
+      "id": "button_action",
+      "label": "Button action",
+      "options": [
+        { "value": "view_product", "label": "Go to product page" },
+        { "value": "add_to_cart", "label": "Add to cart" }
+      ],
+      "default": "view_product"
     },
     {
       "type": "text",
       "id": "button_label",
       "label": "Button label",
-      "default": "TOEVOEGEN"
+      "default": "BEKIJK PRODUCT"
     },
     {
       "type": "color",
