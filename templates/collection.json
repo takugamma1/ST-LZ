@@ -86,7 +86,7 @@
         "gradient_direction": "to top",
         "blurred_reflection": false,
         "reflection_opacity": 75,
-        "padding-block-start": 40,
+        "padding-block-start": 10,
         "padding-block-end": 40
       }
     },
@@ -97,7 +97,7 @@
           "type": "custom-product-card",
           "settings": {
             "product": "stelz-hoodie",
-            "thumbnail_override": "shopify://shop_images/5f8c9856-26bd-490b-9f80-32b0d2ae49fb.png",
+            "thumbnail_override": "shopify://shop_images/cac91492-e770-4e17-805f-1229b35d1140.png",
             "show_badge": true,
             "badge_text": "Hoodie",
             "badge_background": "#e8a6b9",
@@ -120,7 +120,7 @@
           "type": "custom-product-card",
           "settings": {
             "product": "stelz-t-shirt",
-            "thumbnail_override": "shopify://shop_images/hf_20260521_084315_1f273ca9-72e7-43aa-9065-af1d623b341d_-_Edited.png",
+            "thumbnail_override": "shopify://shop_images/a3568a39-ed6d-434f-9c98-86320db6b1c9.png",
             "show_badge": true,
             "badge_text": "T-shirt",
             "badge_background": "#b1a1c9",
@@ -143,7 +143,7 @@
           "type": "custom-product-card",
           "settings": {
             "product": "stelz-tank-top",
-            "thumbnail_override": "shopify://shop_images/3ec30383-a84a-47ec-89bf-dfbea7263cda.png",
+            "thumbnail_override": "shopify://shop_images/4cbe28ce-a7c3-4893-a7d4-9dbee8d111b5.png",
             "show_badge": true,
             "badge_text": "Tank top",
             "badge_background": "#f9b55b",
