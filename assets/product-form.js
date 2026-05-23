@@ -109,6 +109,16 @@ export class AddToCartComponent extends Component {
 
     if (!cartIcon || !addToCartButton || !image) return;
 
+    // De-dupe: if a fly-to-cart animation from THIS button is already in
+    // flight, don't spawn a second one. Prevents double animation when
+    // a click handler fires more than once for the same user gesture
+    // (e.g. a third-party app re-emitting click on the same button).
+    if (addToCartButton.dataset.ftcInFlight === 'true') return;
+    addToCartButton.dataset.ftcInFlight = 'true';
+    setTimeout(() => {
+      delete addToCartButton.dataset.ftcInFlight;
+    }, 700); // matches fly-to-cart animation duration (~0.6s)
+
     const flyToCartElement = /** @type {FlyToCart} */ (document.createElement('fly-to-cart'));
 
     let flyToCartClass = addToCartButton.classList.contains('quick-add__button')
