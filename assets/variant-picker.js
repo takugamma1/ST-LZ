@@ -72,6 +72,34 @@ export default class VariantPicker extends Component {
       !event.target.closest('product-card') &&
       !event.target.closest('quick-add-dialog');
 
+    // STELZ: on products that integrate TeeInBlue (or any third-party
+    // customizer marked via body class), skip the Section Rendering API
+    // fetch + DOM morph entirely. Re-rendering the product section
+    // around the customizer interferes with its internal state (wipes
+    // the uploaded design, breaks the upload button). The variant id
+    // still needs to flow into the form so add-to-cart submits the
+    // right variant — we set it directly here instead.
+    const skipSectionRender =
+      isOnProductPage && document.body.classList.contains('teeinblue-enabled');
+
+    if (skipSectionRender) {
+      const variantId = selectedOption.dataset.variantId || null;
+      if (variantId) {
+        const variantInput = document.querySelector(
+          'product-form-component input[name="id"], form input[name="id"][ref="variantId"]'
+        );
+        if (variantInput instanceof HTMLInputElement) {
+          variantInput.value = variantId;
+        }
+        const url = new URL(window.location.href);
+        url.searchParams.set('variant', variantId);
+        if (url.href !== window.location.href) {
+          history.replaceState({}, '', url.toString());
+        }
+      }
+      return;
+    }
+
     // Morph the entire main content for combined listings child products, because changing the product
     // might also change other sections depending on recommendations, metafields, etc.
     const currentUrl = this.dataset.productUrl?.split('?')[0];
