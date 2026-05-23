@@ -320,7 +320,7 @@
         "equal_columns": false,
         "limit_details_width": false,
         "gap": 48,
-        "enable_sticky_add_to_cart": true,
+        "enable_sticky_add_to_cart": false,
         "color_scheme": "scheme-740e7589-0490-48ab-abaa-891af301a071",
         "padding-block-start": 0,
         "padding-block-end": 0

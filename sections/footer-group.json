@@ -1,1 +1,204 @@
-{"type":"footer","name":"Footer","sections":{"footer_m9NzUG":{"type":"footer","blocks":{"menu_xGDQgj":{"type":"menu","name":"t:names.menu","settings":{"menu":"main-menu","heading":"","menu_spacing":12,"show_as_accordion":false,"accordion_icon":"caret","accordion_dividers":false,"inherit_color_scheme":true,"color_scheme":"","heading_preset":"h3","link_preset":"paragraph","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"text_33i39K":{"type":"text","name":"t:names.text","settings":{"text":"<p><strong>Questions?<br\/><\/strong><br\/><strong>Customer service:<\/strong><br\/><a href=\"mailto:hello@drinkstelz.com\">hello@drinkstelz.com<\/a><\/p><p><strong>Sales:<\/strong><br\/><a href=\"mailto:sales@drinkstelz.com\">sales@drinkstelz.com<\/a><\/p>","width":"fit-content","max_width":"normal","alignment":"left","enable_leaves":false,"leaf_image":"","leaf_count":4,"leaf_size":64,"leaf_shift_x":0,"leaf_shift_y":0,"type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"var(--color-foreground)","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"email_signup_crihX7":{"type":"email-signup","settings":{"width":"fill","custom_width":100,"inherit_color_scheme":true,"color_scheme":"","heading":"RECEIVE OUR EMAILS","heading_preset":"h6","border_style":"all","border_width":1.5,"border_radius":100,"input_type_preset":"paragraph","style_class":"button","display_type":"arrow","label":"Sign up","integrated_button":false,"button_type_preset":"paragraph","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}}},"block_order":["menu_xGDQgj","text_33i39K","email_signup_crihX7"],"name":"t:names.footer","settings":{"enable_ripped_edge":false,"rip_image_url":"","rip_height":12,"rip_offset":0,"rip_angle":15,"rip_scale":100,"rip_position":"top","rip_flip_horizontal":false,"section_width":"page-width","gap":0,"color_scheme":"scheme-1","padding-block-start":30,"padding-block-end":30}},"section_NxBYhr":{"type":"section","blocks":{"jumbo_text_dti9Gi":{"type":"jumbo-text","name":"t:names.jumbo_text","settings":{"text":"STËLZ","font":"heading","alignment":"center","line_height":"0.8","letter_spacing":"-0.03em","case":"none","text_effect":"blur","animation_repeat":false},"blocks":{}}},"block_order":["jumbo_text_dti9Gi"],"name":"t:names.custom_section","settings":{"content_direction":"column","vertical_on_mobile":true,"horizontal_alignment":"flex-start","vertical_alignment":"center","align_baseline":false,"horizontal_alignment_flex_direction_column":"flex-start","vertical_alignment_flex_direction_column":"center","gap":12,"section_width":"page-width","section_height":"","section_height_custom":50,"color_scheme":"scheme-74069935-a1ce-4b5f-8566-0fa6b0b830e5","background_media":"none","video_position":"cover","background_image_position":"cover","border":"none","border_width":1,"border_opacity":100,"border_radius":0,"toggle_overlay":false,"overlay_color":"#00000026","overlay_style":"solid","gradient_direction":"to top","padding-block-start":0,"padding-block-end":0}},"footer_utilities_jLGE8U":{"type":"footer-utilities","blocks":{"footer_copyright_jweRK8":{"type":"footer-copyright","settings":{"show_powered_by":false,"font_size":"0.75rem","case":"none"},"blocks":{}},"footer_policy_list_VCdnpa":{"type":"footer-policy-list","settings":{"font_size":"0.75rem","case":"none"},"blocks":{}}},"block_order":["footer_copyright_jweRK8","footer_policy_list_VCdnpa"],"name":"t:names.utilities","settings":{"section_width":"page-width","gap":24,"divider_thickness":0,"color_scheme":"","padding-block-start":20,"padding-block-end":48}}},"order":["footer_m9NzUG","section_NxBYhr","footer_utilities_jLGE8U"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "footer_m9NzUG": {
+      "type": "footer",
+      "blocks": {
+        "menu_xGDQgj": {
+          "type": "menu",
+          "name": "t:names.menu",
+          "settings": {
+            "menu": "main-menu",
+            "heading": "",
+            "menu_spacing": 12,
+            "show_as_accordion": false,
+            "accordion_icon": "caret",
+            "accordion_dividers": false,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "heading_preset": "h3",
+            "link_preset": "paragraph",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_33i39K": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p><strong>Questions?<br/></strong><br/><strong>Customer service:</strong><br/><a href=\"mailto:hello@drinkstelz.com\">hello@drinkstelz.com</a></p><p><strong>Sales:</strong><br/><a href=\"mailto:sales@drinkstelz.com\">sales@drinkstelz.com</a></p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "email_signup_crihX7": {
+          "type": "email-signup",
+          "settings": {
+            "width": "fill",
+            "custom_width": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "heading": "RECEIVE OUR EMAILS",
+            "heading_preset": "h6",
+            "border_style": "all",
+            "border_width": 1.5,
+            "border_radius": 100,
+            "input_type_preset": "paragraph",
+            "style_class": "button",
+            "display_type": "arrow",
+            "label": "Sign up",
+            "integrated_button": false,
+            "button_type_preset": "paragraph",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "menu_xGDQgj",
+        "text_33i39K",
+        "email_signup_crihX7"
+      ],
+      "name": "t:names.footer",
+      "settings": {
+        "enable_ripped_edge": false,
+        "rip_image_url": "",
+        "rip_height": 12,
+        "rip_offset": 0,
+        "rip_angle": 15,
+        "rip_scale": 100,
+        "rip_position": "top",
+        "rip_flip_horizontal": false,
+        "section_width": "page-width",
+        "gap": 0,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 30,
+        "padding-block-end": 30
+      }
+    },
+    "section_NxBYhr": {
+      "type": "section",
+      "blocks": {
+        "jumbo_text_dti9Gi": {
+          "type": "jumbo-text",
+          "name": "t:names.jumbo_text",
+          "settings": {
+            "text": "STËLZ",
+            "font": "heading",
+            "alignment": "center",
+            "line_height": "0.8",
+            "letter_spacing": "-0.03em",
+            "case": "none",
+            "text_effect": "blur",
+            "animation_repeat": false
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "jumbo_text_dti9Gi"
+      ],
+      "name": "t:names.custom_section",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-74069935-a1ce-4b5f-8566-0fa6b0b830e5",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 70,
+        "padding-block-end": 0
+      }
+    },
+    "footer_utilities_jLGE8U": {
+      "type": "footer-utilities",
+      "blocks": {
+        "footer_copyright_jweRK8": {
+          "type": "footer-copyright",
+          "settings": {
+            "show_powered_by": false,
+            "font_size": "0.75rem",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "footer_policy_list_VCdnpa": {
+          "type": "footer-policy-list",
+          "settings": {
+            "font_size": "0.75rem",
+            "case": "none"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "footer_copyright_jweRK8",
+        "footer_policy_list_VCdnpa"
+      ],
+      "name": "t:names.utilities",
+      "settings": {
+        "section_width": "page-width",
+        "gap": 24,
+        "divider_thickness": 0,
+        "color_scheme": "",
+        "padding-block-start": 20,
+        "padding-block-end": 40
+      }
+    }
+  },
+  "order": [
+    "footer_m9NzUG",
+    "section_NxBYhr",
+    "footer_utilities_jLGE8U"
+  ]
+}
