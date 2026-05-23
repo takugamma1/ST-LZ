@@ -82,10 +82,10 @@ export class AddToCartComponent extends Component {
       }
     }
     if (this.refs.addToCartButton.dataset.puppet !== 'true') {
-      const animationEnabled = this.dataset.addToCartAnimation === 'true';
-      if (animationEnabled && !event.target.closest('.quick-add-modal')) {
-        this.#animateFlyToCart();
-      }
+      // STELZ: fly-to-cart animation disabled entirely. The button's own
+      // checkmark burst (animateAddToCart) is enough feedback that the
+      // item was added — the extra flying-image animation was firing
+      // twice in some cases and felt noisy.
       this.animateAddToCart();
     }
   }

@@ -96,6 +96,31 @@ export default class VariantPicker extends Component {
         if (url.href !== window.location.href) {
           history.replaceState({}, '', url.toString());
         }
+
+        // Re-sync the add-to-cart button enabled/disabled state for the
+        // new variant. Without the section morph nothing else updates
+        // it, so the button can end up stuck in whatever state it had
+        // before the switch (e.g. disabled if a previous variant was
+        // sold out). Read availability from the embedded variant JSON
+        // and reflect it directly.
+        try {
+          const variantsScript = document.querySelector(
+            'variant-picker script[type="application/json"]'
+          );
+          let isAvailable = true;
+          if (variantsScript?.textContent) {
+            const data = JSON.parse(variantsScript.textContent);
+            const variants = Array.isArray(data) ? data : [data];
+            const match = variants.find((v) => String(v?.id) === String(variantId));
+            if (match && match.available === false) isAvailable = false;
+          }
+          for (const atc of document.querySelectorAll('add-to-cart-component')) {
+            const btn = atc.refs?.addToCartButton;
+            if (btn) btn.disabled = !isAvailable;
+          }
+        } catch (_) {
+          // Best-effort: if anything goes wrong, leave the button alone.
+        }
       }
       return;
     }
