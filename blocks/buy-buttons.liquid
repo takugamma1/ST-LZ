@@ -17,8 +17,16 @@
   assign can_add_to_cart = false
   assign add_to_cart_text = 'products.product.unavailable' | t
 
+  # Effective minimum order quantity: variant rule takes priority, then
+  # the store-wide setting (Theme settings > Order rules > MOQ), then 1.
+  assign moq_default = settings.min_order_quantity | default: 1
+  assign effective_min = variant.quantity_rule.min | default: moq_default
+  if effective_min < moq_default
+    assign effective_min = moq_default
+  endif
+
   if variant
-    if variant.quantity_rule.min > variant.inventory_quantity and inventory_managed and inventory_policy == 'deny'
+    if effective_min > variant.inventory_quantity and inventory_managed and inventory_policy == 'deny'
       assign quantity_rule_soldout = true
     endif
 
@@ -46,7 +54,7 @@
       data-product-id="{{ product.id }}"
       data-product-url="{{ product.url }}"
       on:submit="/handleSubmit"
-      data-quantity-default="{% if product.selected_or_first_available_variant.quantity_rule.min %}{{ product.selected_or_first_available_variant.quantity_rule.min }}{% else %}1{% endif %}"
+      data-quantity-default="{{ effective_min }}"
       data-quantity-error-max="{{ 'products.product.quantity_error_max' | t }}"
     >
       <div
@@ -73,7 +81,7 @@
         >
           {%- liquid
             assign has_quantity_rules = false
-            if variant.quantity_rule.min > 1 or variant.quantity_rule.increment > 1 or variant.quantity_rule.max != null
+            if effective_min > 1 or variant.quantity_rule.increment > 1 or variant.quantity_rule.max != null
               assign has_quantity_rules = true
             endif
           -%}
@@ -106,9 +114,9 @@
                   {{ 'products.product.quantity_increments' | t: increment: variant.quantity_rule.increment }}
                 </span>
               {%- endif -%}
-              {%- if variant.quantity_rule.min > 1 -%}
+              {%- if effective_min > 1 -%}
                 <span class="quantity-rules__item">
-                  {{ 'products.product.quantity_minimum' | t: minimum: variant.quantity_rule.min }}
+                  {{ 'products.product.quantity_minimum' | t: minimum: effective_min }}
                 </span>
               {%- endif -%}
               {%- if variant.quantity_rule.max != null -%}

@@ -2284,5 +2284,24 @@
         "default": "equal-width-buttons"
       }
     ]
+  },
+  {
+    "name": "Order rules",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Store-wide rules applied to every product. Per-product variant quantity rules (set in Shopify admin) override these defaults."
+      },
+      {
+        "type": "range",
+        "id": "min_order_quantity",
+        "label": "Minimum order quantity",
+        "info": "Customers can't order fewer than this many units of any product (unless a higher per-variant minimum is set).",
+        "min": 1,
+        "max": 100,
+        "step": 1,
+        "default": 25
+      }
+    ]
   }
 ]
