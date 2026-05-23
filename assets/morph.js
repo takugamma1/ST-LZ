@@ -135,6 +135,19 @@ function walk(newNode, oldNode, options) {
     // Skip morphing if the node is shopify-accelerated-checkout-cart https://shopify.dev/docs/storefronts/themes/pricing-payments/accelerated-checkout#implement-accelerated-checkout-buttons-on-cart
     if (oldNode.tagName === 'SHOPIFY-ACCELERATED-CHECKOUT-CART') return oldNode;
 
+    // Preserve third-party app widgets (e.g. TeeInBlue customizer) and any
+    // node the theme marks with [data-no-morph]. Morphing TeeInBlue mid-
+    // session destroys the customer's uploaded logo and detaches its
+    // event listeners, leaving the widget in a half-alive state where
+    // further uploads / edits silently fail.
+    if (
+      oldNode.hasAttribute('data-no-morph') ||
+      /teeinblue/i.test(oldNode.id) ||
+      (typeof oldNode.className === 'string' && /teeinblue/i.test(oldNode.className))
+    ) {
+      return oldNode;
+    }
+
     if (newNode.tagName !== oldNode.tagName) return newNode;
 
     // Only check keys for elements, and only if both nodes have keys
