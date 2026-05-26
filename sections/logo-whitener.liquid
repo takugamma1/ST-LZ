@@ -1,0 +1,548 @@
+
+<div class="section-background logo-whitener-section__background" style="background: {{ section.settings.section_bg_color }};"></div>
+
+<div
+  class="
+    logo-whitener-section
+    section
+    section--{{ section.settings.section_width }}
+    spacing-style
+  "
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    --lw-fg: {{ section.settings.text_color }};
+    --lw-card-bg: {{ section.settings.card_bg }};
+    --lw-card-radius: {{ section.settings.card_radius }}px;
+    --lw-preview-bg: {{ section.settings.preview_bg }};
+    --lw-accent: {{ section.settings.accent_color }};
+    --lw-accent-fg: {{ section.settings.accent_fg }};
+  "
+>
+  <logo-whitener class="logo-whitener" data-tolerance="{{ section.settings.tolerance }}">
+    <div class="logo-whitener__head">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="logo-whitener__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="logo-whitener__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="logo-whitener__grid">
+      <label class="logo-whitener__drop" data-state="empty">
+        <input
+          type="file"
+          accept="image/png,image/jpeg,image/webp,image/svg+xml"
+          class="logo-whitener__input"
+          ref="fileInput"
+        >
+        <div class="logo-whitener__drop-inner">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <strong>{{ section.settings.upload_label }}</strong>
+          <span>{{ section.settings.upload_hint }}</span>
+        </div>
+      </label>
+
+      <div class="logo-whitener__preview" data-state="empty">
+        <div class="logo-whitener__preview-frame">
+          <div class="logo-whitener__placeholder">{{ section.settings.preview_placeholder }}</div>
+          <canvas ref="canvas" class="logo-whitener__canvas"></canvas>
+        </div>
+        <button type="button" class="logo-whitener__download button" ref="downloadBtn" disabled>
+          {{ section.settings.download_label }}
+        </button>
+      </div>
+    </div>
+
+    {%- if section.settings.instructions != blank -%}
+      <div class="logo-whitener__instructions">{{ section.settings.instructions }}</div>
+    {%- endif -%}
+  </logo-whitener>
+</div>
+
+{% stylesheet %}
+  .logo-whitener-section {
+    position: relative;
+    color: var(--lw-fg, #0c1a3a);
+  }
+
+  .logo-whitener {
+    display: block;
+    max-width: 980px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .logo-whitener__head {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .logo-whitener__heading {
+    margin: 0;
+    font-family: var(--font-body--family, sans-serif);
+    font-size: clamp(1.5rem, 4cqi, 2.25rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: var(--lw-fg, #0c1a3a);
+  }
+
+  .logo-whitener__subheading {
+    margin: 8px 0 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    opacity: 0.85;
+    color: var(--lw-fg, #0c1a3a);
+  }
+
+  .logo-whitener__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  @media (min-width: 750px) {
+    .logo-whitener__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+  }
+
+  .logo-whitener__drop,
+  .logo-whitener__preview {
+    background: var(--lw-card-bg, #ffffff);
+    border-radius: var(--lw-card-radius, 14px);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+    position: relative;
+  }
+
+  .logo-whitener__drop {
+    border: 2px dashed rgb(0 0 0 / 0.18);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .logo-whitener__drop:hover,
+  .logo-whitener__drop[data-dragging="true"] {
+    border-color: var(--lw-accent, #0c1a3a);
+    background: color-mix(in srgb, var(--lw-accent, #0c1a3a) 5%, var(--lw-card-bg, #ffffff));
+  }
+
+  .logo-whitener__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .logo-whitener__drop-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    color: var(--lw-fg, #0c1a3a);
+  }
+
+  .logo-whitener__drop-inner svg {
+    width: 44px;
+    height: 44px;
+    opacity: 0.6;
+    margin-bottom: 8px;
+  }
+
+  .logo-whitener__drop-inner strong {
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .logo-whitener__drop-inner span {
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+
+  .logo-whitener__preview-frame {
+    width: 100%;
+    flex: 1;
+    background: var(--lw-preview-bg, #0c1a3a);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 16px;
+    min-height: 200px;
+    background-image: linear-gradient(45deg, rgba(255,255,255,0.04) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(255,255,255,0.04) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.04) 75%),
+      linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.04) 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+    background-color: var(--lw-preview-bg, #0c1a3a);
+  }
+
+  .logo-whitener__canvas {
+    display: none;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .logo-whitener__placeholder {
+    color: rgb(255 255 255 / 0.55);
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 16px;
+  }
+
+  .logo-whitener__preview[data-state="ready"] .logo-whitener__placeholder { display: none; }
+  .logo-whitener__preview[data-state="ready"] .logo-whitener__canvas { display: block; }
+
+  .logo-whitener__download {
+    margin-top: 16px;
+    width: 100%;
+    background: var(--lw-accent, #0c1a3a);
+    color: var(--lw-accent-fg, #ffffff);
+    border: none;
+    padding: 14px 24px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: filter 0.2s ease, transform 0.15s ease;
+  }
+
+  .logo-whitener__download:not([disabled]):hover { filter: brightness(1.1); }
+  .logo-whitener__download:not([disabled]):active { transform: translateY(1px); }
+  .logo-whitener__download[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .logo-whitener__instructions {
+    margin-top: 20px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--lw-fg, #0c1a3a);
+    opacity: 0.75;
+    text-align: center;
+  }
+
+  .logo-whitener__instructions > :first-child { margin-top: 0; }
+  .logo-whitener__instructions > :last-child { margin-bottom: 0; }
+{% endstylesheet %}
+
+{% javascript %}
+  if (!customElements.get('logo-whitener')) {
+    class LogoWhitener extends HTMLElement {
+      connectedCallback() {
+        this.fileInput = this.querySelector('input[type="file"]');
+        this.dropZone = this.querySelector('.logo-whitener__drop');
+        this.canvas = this.querySelector('canvas');
+        this.previewArea = this.querySelector('.logo-whitener__preview');
+        this.downloadBtn = this.querySelector('.logo-whitener__download');
+        this.tolerance = Number(this.dataset.tolerance) || 80;
+
+        this.fileInput.addEventListener('change', (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (file) this.handleFile(file);
+        });
+
+        ['dragenter', 'dragover'].forEach((evt) =>
+          this.dropZone.addEventListener(evt, (e) => {
+            e.preventDefault();
+            this.dropZone.setAttribute('data-dragging', 'true');
+          })
+        );
+        ['dragleave', 'drop'].forEach((evt) =>
+          this.dropZone.addEventListener(evt, (e) => {
+            e.preventDefault();
+            this.dropZone.removeAttribute('data-dragging');
+          })
+        );
+        this.dropZone.addEventListener('drop', (e) => {
+          const file = e.dataTransfer?.files?.[0];
+          if (file) this.handleFile(file);
+        });
+
+        this.downloadBtn.addEventListener('click', () => this.download());
+      }
+
+      handleFile(file) {
+        if (!file.type.startsWith('image/')) return;
+        this.originalName = (file.name || 'logo').replace(/\.[^.]+$/, '');
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+          this.process(img);
+          URL.revokeObjectURL(url);
+        };
+        img.onerror = () => URL.revokeObjectURL(url);
+        img.src = url;
+      }
+
+      process(img) {
+        // Cap working size to avoid huge memory hits on 8000px logos
+        const MAX = 1600;
+        const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+        const w = Math.round(img.width * scale);
+        const h = Math.round(img.height * scale);
+        this.canvas.width = w;
+        this.canvas.height = h;
+        const ctx = this.canvas.getContext('2d');
+        ctx.clearRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+
+        const imgData = ctx.getImageData(0, 0, w, h);
+        const data = imgData.data;
+
+        // Sample the 4 corners (with a small inset) to detect bg color/alpha
+        const inset = Math.max(2, Math.floor(Math.min(w, h) * 0.01));
+        const corners = [
+          [inset, inset],
+          [w - inset - 1, inset],
+          [inset, h - inset - 1],
+          [w - inset - 1, h - inset - 1],
+        ];
+        const samples = corners.map(([x, y]) => {
+          const i = (y * w + x) * 4;
+          return [data[i], data[i + 1], data[i + 2], data[i + 3]];
+        });
+        const avgAlpha = samples.reduce((s, c) => s + c[3], 0) / 4;
+        const transparentBg = avgAlpha < 30;
+
+        let bgR = 255,
+          bgG = 255,
+          bgB = 255;
+        if (!transparentBg) {
+          bgR = samples.reduce((s, c) => s + c[0], 0) / 4;
+          bgG = samples.reduce((s, c) => s + c[1], 0) / 4;
+          bgB = samples.reduce((s, c) => s + c[2], 0) / 4;
+        }
+
+        const tol = this.tolerance;
+        const tolHalf = tol / 2;
+
+        for (let i = 0; i < data.length; i += 4) {
+          if (transparentBg) {
+            // PNG with already-transparent bg: just paint pixels white,
+            // keep their original alpha (preserves anti-aliasing).
+            if (data[i + 3] > 0) {
+              data[i] = 255;
+              data[i + 1] = 255;
+              data[i + 2] = 255;
+            }
+          } else {
+            const dr = data[i] - bgR;
+            const dg = data[i + 1] - bgG;
+            const db = data[i + 2] - bgB;
+            const dist = Math.sqrt(dr * dr + dg * dg + db * db);
+            let alpha;
+            if (dist < tolHalf) alpha = 0;
+            else if (dist > tol) alpha = 255;
+            else alpha = Math.round(((dist - tolHalf) / tolHalf) * 255);
+            data[i] = 255;
+            data[i + 1] = 255;
+            data[i + 2] = 255;
+            data[i + 3] = alpha;
+          }
+        }
+
+        ctx.putImageData(imgData, 0, 0);
+        this.previewArea.setAttribute('data-state', 'ready');
+        this.downloadBtn.removeAttribute('disabled');
+      }
+
+      download() {
+        if (this.previewArea.getAttribute('data-state') !== 'ready') return;
+        this.canvas.toBlob((blob) => {
+          if (!blob) return;
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = (this.originalName || 'logo') + '-white.png';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+        }, 'image/png');
+      }
+    }
+    customElements.define('logo-whitener', LogoWhitener);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Logo whitener",
+  "tag": "section",
+  "class": "logo-whitener-section-wrapper section-wrapper",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "STAP 1 — MAAK JE LOGO WIT"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Upload je logo. We maken het wit met een transparante achtergrond. Download het en gebruik het hieronder in de customizer."
+    },
+    {
+      "type": "text",
+      "id": "upload_label",
+      "label": "Upload label",
+      "default": "Sleep je logo hier of klik om te uploaden"
+    },
+    {
+      "type": "text",
+      "id": "upload_hint",
+      "label": "Upload hint",
+      "default": "PNG, JPG of WEBP"
+    },
+    {
+      "type": "text",
+      "id": "preview_placeholder",
+      "label": "Preview placeholder",
+      "default": "Hier verschijnt je witte logo"
+    },
+    {
+      "type": "text",
+      "id": "download_label",
+      "label": "Download button",
+      "default": "Download wit logo"
+    },
+    {
+      "type": "richtext",
+      "id": "instructions",
+      "label": "Footer / instructions",
+      "default": "<p>Tip: gebruik een logo met een effen achtergrond (bijv. wit) of een PNG met transparante achtergrond voor het beste resultaat.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Processing"
+    },
+    {
+      "type": "range",
+      "id": "tolerance",
+      "label": "Background removal sensitivity",
+      "info": "Higher = more aggressive (removes more of the background). Default works for most logos.",
+      "min": 30,
+      "max": 160,
+      "step": 5,
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section background",
+      "default": "#f5f5f7"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "preview_bg",
+      "label": "Preview background (where the white logo shows)",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Download button background",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "color",
+      "id": "accent_fg",
+      "label": "Download button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo whitener",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
