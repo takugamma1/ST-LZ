@@ -30,6 +30,7 @@
 {%- endif -%}
 
 {%- if paired != blank -%}
+  <div class="section-background branded-toggle-section__background" style="background: {{ section.settings.section_bg_color }};"></div>
   <div
     class="
       branded-toggle-section
@@ -158,6 +159,12 @@
     {
       "type": "header",
       "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section background",
+      "default": "#ffffff"
     },
     {
       "type": "select",
