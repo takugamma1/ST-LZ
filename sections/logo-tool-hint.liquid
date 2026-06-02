@@ -1,0 +1,227 @@
+
+{% liquid
+  # Hide on explicitly non-branded products (the plain duplicates have no
+  # logo tool). Shows on branded products and any product without the flag.
+  assign is_branded = product.metafields.custom.is_branded.value
+  assign anchor = section.settings.anchor_target | default: '#logo-whitener-tool'
+-%}
+
+{%- unless is_branded == false -%}
+  <div
+    class="
+      logo-tool-hint-section
+      section
+      section--{{ section.settings.section_width }}
+      spacing-style
+    "
+    style="
+      {% render 'spacing-style', settings: section.settings %}
+      --lth-bg: {{ section.settings.box_bg }};
+      --lth-fg: {{ section.settings.text_color }};
+      --lth-accent: {{ section.settings.button_bg }};
+      --lth-accent-fg: {{ section.settings.button_fg }};
+      --lth-radius: {{ section.settings.corner_radius }}px;
+    "
+  >
+    <div class="logo-tool-hint">
+      <div class="logo-tool-hint__text">
+        {%- if section.settings.icon != blank -%}
+          <span class="logo-tool-hint__icon" aria-hidden="true">{{ section.settings.icon }}</span>
+        {%- endif -%}
+        <span>{{ section.settings.hint_text }}</span>
+      </div>
+      <a href="{{ anchor }}" class="logo-tool-hint__button" data-logo-tool-hint>
+        {{ section.settings.button_label }}
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M19 12l-7 7-7-7"/></svg>
+      </a>
+    </div>
+  </div>
+{%- endunless -%}
+
+{% stylesheet %}
+  .logo-tool-hint {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 20px;
+    padding: 16px 20px;
+    background: var(--lth-bg, #f0f1f4);
+    color: var(--lth-fg, #0c1a3a);
+    border-radius: var(--lth-radius, 14px);
+  }
+
+  .logo-tool-hint__text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  .logo-tool-hint__icon {
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .logo-tool-hint__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    background: var(--lth-accent, #0c1a3a);
+    color: var(--lth-accent-fg, #ffffff);
+    text-decoration: none;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: filter 0.2s ease, transform 0.15s ease;
+  }
+
+  .logo-tool-hint__button:hover { filter: brightness(1.1); }
+  .logo-tool-hint__button:active { transform: translateY(1px); }
+
+  .logo-tool-hint__button svg {
+    width: 16px;
+    height: 16px;
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  // Smooth-scroll to the tool when the hint button is clicked.
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('[data-logo-tool-hint]');
+    if (!link) return;
+    const id = (link.getAttribute('href') || '').replace('#', '');
+    const target = id && document.getElementById(id);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', link.getAttribute('href'));
+    }
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Logo tool hint",
+  "tag": "section",
+  "class": "logo-tool-hint-section-wrapper section-wrapper",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "A small banner that links down to the Logo whitener tool. Automatically hidden on non-branded products (custom.is_branded = false)."
+    },
+    {
+      "type": "text",
+      "id": "icon",
+      "label": "Icon (emoji or symbol)",
+      "default": "✨"
+    },
+    {
+      "type": "text",
+      "id": "hint_text",
+      "label": "Hint text",
+      "default": "Heb je een gekleurd logo? Maak het eerst wit met onze tool."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Open de tool"
+    },
+    {
+      "type": "text",
+      "id": "anchor_target",
+      "label": "Anchor target",
+      "info": "The id to scroll to. Default points to the Logo whitener tool.",
+      "default": "#logo-whitener-tool"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "box_bg",
+      "label": "Box background",
+      "default": "#eef0f4"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button background",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "color",
+      "id": "button_fg",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo tool hint",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

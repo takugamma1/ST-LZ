@@ -2,6 +2,7 @@
 <div class="section-background logo-whitener-section__background" style="background: {{ section.settings.section_bg_color }};"></div>
 
 <div
+  id="logo-whitener-tool"
   class="
     logo-whitener-section
     section
@@ -10,6 +11,7 @@
   "
   style="
     {% render 'spacing-style', settings: section.settings %}
+    scroll-margin-top: 100px;
     --lw-fg: {{ section.settings.text_color }};
     --lw-card-bg: {{ section.settings.card_bg }};
     --lw-card-radius: {{ section.settings.card_radius }}px;
