@@ -36,7 +36,7 @@
     --lw-accent-fg: {{ section.settings.accent_fg }};
   "
 >
-  <logo-whitener class="logo-whitener" data-tolerance="{{ section.settings.tolerance }}">
+  <logo-whitener class="logo-whitener" data-tolerance="{{ section.settings.tolerance }}" data-fill-mode="{{ section.settings.fill_mode }}">
     <div class="logo-whitener__head">
       {%- if section.settings.heading != blank -%}
         <h2 class="logo-whitener__heading">{{ section.settings.heading }}</h2>
@@ -274,6 +274,7 @@
         this.previewArea = this.querySelector('.logo-whitener__preview');
         this.downloadBtn = this.querySelector('.logo-whitener__download');
         this.tolerance = Number(this.dataset.tolerance) || 80;
+        this.fillMode = this.dataset.fillMode || 'detail';
 
         this.fileInput.addEventListener('change', (e) => {
           const file = e.target.files && e.target.files[0];
@@ -365,48 +366,59 @@
 
         const tol = this.tolerance;
         const tol2 = tol * tol;
-        const isBg = (i) => {
-          const dr = data[i] - bgR, dg = data[i + 1] - bgG, db = data[i + 2] - bgB;
-          return dr * dr + dg * dg + db * db <= tol2;
-        };
-
-        // --- Flood-fill from the borders through background-like pixels ---
-        // Only background CONNECTED to the edge is removed, so enclosed
-        // shapes/holes inside the logo are preserved.
-        const removed = new Uint8Array(n);
-        const stack = new Int32Array(n);
-        let sp = 0;
-        const seed = (p) => { if (!removed[p] && isBg(p * 4)) { removed[p] = 1; stack[sp++] = p; } };
-        for (let x = 0; x < w; x++) { seed(x); seed((h - 1) * w + x); }
-        for (let y = 0; y < h; y++) { seed(y * w); seed(y * w + w - 1); }
-        while (sp > 0) {
-          const p = stack[--sp];
-          const x = p % w, y = (p - x) / w;
-          if (x > 0) seed(p - 1);
-          if (x < w - 1) seed(p + 1);
-          if (y > 0) seed(p - w);
-          if (y < h - 1) seed(p + w);
-        }
-
-        // --- Pass 1: compute output alpha (reads original colors) ---
+        const tolHalf = tol * 0.5;
         const outA = new Uint8ClampedArray(n);
-        for (let p = 0; p < n; p++) {
-          if (removed[p]) { outA[p] = 0; continue; }
-          const x = p % w, y = (p - x) / w;
-          const boundary =
-            (x > 0 && removed[p - 1]) || (x < w - 1 && removed[p + 1]) ||
-            (y > 0 && removed[p - w]) || (y < h - 1 && removed[p + w]);
-          if (boundary) {
+
+        if (this.fillMode === 'silhouette') {
+          // --- SILHOUETTE: flood-fill from the borders, then fill the
+          //     whole shape solid white. Enclosed areas stay white. ---
+          const isBg = (i) => {
+            const dr = data[i] - bgR, dg = data[i + 1] - bgG, db = data[i + 2] - bgB;
+            return dr * dr + dg * dg + db * db <= tol2;
+          };
+          const removed = new Uint8Array(n);
+          const stack = new Int32Array(n);
+          let sp = 0;
+          const seed = (p) => { if (!removed[p] && isBg(p * 4)) { removed[p] = 1; stack[sp++] = p; } };
+          for (let x = 0; x < w; x++) { seed(x); seed((h - 1) * w + x); }
+          for (let y = 0; y < h; y++) { seed(y * w); seed(y * w + w - 1); }
+          while (sp > 0) {
+            const p = stack[--sp];
+            const x = p % w, y = (p - x) / w;
+            if (x > 0) seed(p - 1);
+            if (x < w - 1) seed(p + 1);
+            if (y > 0) seed(p - w);
+            if (y < h - 1) seed(p + w);
+          }
+          for (let p = 0; p < n; p++) {
+            if (removed[p]) { outA[p] = 0; continue; }
+            const x = p % w, y = (p - x) / w;
+            const boundary =
+              (x > 0 && removed[p - 1]) || (x < w - 1 && removed[p + 1]) ||
+              (y > 0 && removed[p - w]) || (y < h - 1 && removed[p + w]);
+            if (boundary) {
+              const i = p * 4;
+              const dr = data[i] - bgR, dg = data[i + 1] - bgG, db = data[i + 2] - bgB;
+              outA[p] = Math.round(Math.min(1, Math.sqrt(dr * dr + dg * dg + db * db) / tol) * 255);
+            } else {
+              outA[p] = 255;
+            }
+          }
+        } else {
+          // --- DETAIL (default): cut EVERY background-coloured pixel,
+          //     inside and out. Inner fills become transparent so outlines
+          //     + text read as white line-art (no solid blob). ---
+          for (let p = 0; p < n; p++) {
             const i = p * 4;
             const dr = data[i] - bgR, dg = data[i + 1] - bgG, db = data[i + 2] - bgB;
             const dist = Math.sqrt(dr * dr + dg * dg + db * db);
-            outA[p] = Math.round(Math.min(1, dist / tol) * 255);
-          } else {
-            outA[p] = 255;
+            if (dist <= tolHalf) outA[p] = 0;
+            else if (dist >= tol) outA[p] = 255;
+            else outA[p] = Math.round(((dist - tolHalf) / (tol - tolHalf)) * 255);
           }
         }
 
-        // --- Pass 2: whiten everything, apply computed alpha ---
+        // --- Whiten everything, apply computed alpha ---
         for (let p = 0; p < n; p++) {
           const i = p * 4;
           data[i] = 255; data[i + 1] = 255; data[i + 2] = 255; data[i + 3] = outA[p];
@@ -497,6 +509,17 @@
     {
       "type": "header",
       "content": "Processing"
+    },
+    {
+      "type": "select",
+      "id": "fill_mode",
+      "label": "Logo style",
+      "info": "Keep inner detail: cuts out inner fills so outlines + text read as white line-art (best for badges / circle-with-text logos). Solid silhouette: fills the whole shape solid white.",
+      "options": [
+        { "value": "detail", "label": "Keep inner detail (cut-out)" },
+        { "value": "silhouette", "label": "Solid silhouette" }
+      ],
+      "default": "detail"
     },
     {
       "type": "range",
