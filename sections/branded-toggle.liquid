@@ -10,6 +10,25 @@
   assign plain_label = section.settings.plain_label
 -%}
 
+{%- comment -%}
+  On non-branded products, TeeInBlue's global app embed still injects its
+  customizer (the app block was removed from the template, but the embed
+  runs site-wide). Hide just the personalize UI (#tee-artwork-form), while
+  keeping the standard quantity + add-to-cart (.product-form-buttons),
+  which TeeInBlue renders as a separate sibling.
+
+  NOTE: this is a presentation-layer suppression. The robust fix is to
+  disable these products inside the TeeInBlue app admin.
+{%- endcomment -%}
+{%- if is_branded == false -%}
+  <style>
+    #tee-artwork-form,
+    .tee-campaign-form-wrapper,
+    .tee-customization-warning,
+    .tee-form-header { display: none !important; }
+  </style>
+{%- endif -%}
+
 {%- if paired != blank -%}
   <div
     class="
