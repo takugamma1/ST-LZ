@@ -1,20 +1,15 @@
 {%- doc -%}
-  Small hint banner inside the product details that links/scrolls to the
-  white-logo tool (#logo-whitener-tool). Renders ONLY on branded products
-  (custom.is_branded == true), so non-branded duplicates and regular
-  products never show it.
+  Small hint banner shown above the product title that links/scrolls to the
+  white-logo tool (#logo-whitener-tool). Renders ONLY on products that have
+  the TeeInBlue customizer AND are not the explicitly non-branded duplicate.
 
-  @param {object} product - the product to read the branded flag from (pass closest.product)
-  @param {string} [hint_text] - the hint copy
-  @param {string} [button_label] - the button label
-  @param {string} [icon] - emoji/symbol shown before the text
-  @param {string} [anchor] - the element id to scroll to (default #logo-whitener-tool)
+  Copy + alignment are controlled globally in Theme settings > Logo tool hint.
+
+  @param {object} product - the product to read the flags from (pass closest.product)
+  @param {string} [anchor] - element id to scroll to (default #logo-whitener-tool)
 {%- enddoc -%}
 
 {%- liquid
-  # Show only on products that have the TeeInBlue customizer AND are not
-  # the explicitly non-branded duplicate. TeeInBlue tags customizable
-  # products with a teeinblue.platform_product metafield.
   assign has_teeinblue = false
   if product.metafields.teeinblue.platform_product != blank
     assign has_teeinblue = true
@@ -26,35 +21,47 @@
   endif
 
   assign anchor = anchor | default: '#logo-whitener-tool'
-  assign hint_text = hint_text | default: 'Heb je een gekleurd logo? Maak het eerst wit met onze tool.'
-  assign button_label = button_label | default: 'Open de tool'
-  assign icon = icon | default: '✨'
+  assign hint_text = settings.logo_hint_text | default: 'Heb je een gekleurd logo? Maak het eerst wit met onze tool.'
+  assign button_label = settings.logo_hint_button_label | default: 'Open de tool'
+  assign icon = settings.logo_hint_icon
+  assign align = settings.logo_hint_alignment | default: 'flex-end'
 -%}
 
 {%- if show_hint -%}
-  <div class="logo-tool-hint">
-    <span class="logo-tool-hint__text">
-      {%- if icon != blank -%}<span class="logo-tool-hint__icon" aria-hidden="true">{{ icon }}</span>{%- endif -%}
-      <span>{{ hint_text }}</span>
-    </span>
-    <a href="{{ anchor }}" class="logo-tool-hint__button" data-logo-tool-hint>
-      {{ button_label }}
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M19 12l-7 7-7-7"/></svg>
-    </a>
+  <div class="logo-tool-hint-wrap{% if settings.logo_hint_full_width %} logo-tool-hint-wrap--full{% endif %}" style="--logo-hint-align: {{ align }};">
+    <div class="logo-tool-hint">
+      <span class="logo-tool-hint__text">
+        {%- if icon != blank -%}<span class="logo-tool-hint__icon" aria-hidden="true">{{ icon }}</span>{%- endif -%}
+        <span>{{ hint_text }}</span>
+      </span>
+      <a href="{{ anchor }}" class="logo-tool-hint__button" data-logo-tool-hint>
+        {{ button_label }}
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M19 12l-7 7-7-7"/></svg>
+      </a>
+    </div>
   </div>
 
   <style>
-    .logo-tool-hint {
+    .logo-tool-hint-wrap {
       display: flex;
+      justify-content: var(--logo-hint-align, flex-end);
+      margin-block: 4px 12px;
+    }
+    .logo-tool-hint {
+      display: inline-flex;
       flex-wrap: wrap;
       align-items: center;
-      justify-content: space-between;
       gap: 10px 16px;
-      padding: 14px 16px;
-      margin-block: 8px;
+      padding: 12px 16px;
+      width: fit-content;
+      max-width: 100%;
       background: var(--logo-tool-hint-bg, rgb(var(--color-foreground-rgb, 12 26 58) / 0.05));
       color: var(--color-foreground, #0c1a3a);
       border-radius: var(--logo-tool-hint-radius, 12px);
+    }
+    .logo-tool-hint-wrap--full .logo-tool-hint {
+      width: 100%;
+      justify-content: space-between;
     }
     .logo-tool-hint__text {
       display: flex;

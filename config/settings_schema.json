@@ -2286,6 +2286,51 @@
     ]
   },
   {
+    "name": "Logo tool hint",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "The hint banner shown above the title on TeeInBlue (branded) products, linking to the white-logo tool."
+      },
+      {
+        "type": "select",
+        "id": "logo_hint_alignment",
+        "label": "Alignment",
+        "options": [
+          { "value": "flex-start", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "flex-end", "label": "Right" }
+        ],
+        "default": "flex-end"
+      },
+      {
+        "type": "text",
+        "id": "logo_hint_text",
+        "label": "Hint text",
+        "default": "Heb je een gekleurd logo? Maak het eerst wit met onze tool."
+      },
+      {
+        "type": "text",
+        "id": "logo_hint_button_label",
+        "label": "Button label",
+        "default": "Open de tool"
+      },
+      {
+        "type": "text",
+        "id": "logo_hint_icon",
+        "label": "Icon (emoji or symbol)",
+        "default": "✨"
+      },
+      {
+        "type": "checkbox",
+        "id": "logo_hint_full_width",
+        "label": "Full width",
+        "info": "When off, the hint shrinks to its content so alignment is visible.",
+        "default": false
+      }
+    ]
+  },
+  {
     "name": "Order rules",
     "settings": [
       {
