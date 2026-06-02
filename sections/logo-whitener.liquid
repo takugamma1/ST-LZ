@@ -1,4 +1,20 @@
 
+{%- liquid
+  # Only render on products that have the TeeInBlue customizer AND are not
+  # the explicitly non-branded duplicate. Always render in the theme editor
+  # so the section stays configurable.
+  assign has_teeinblue = false
+  if product.metafields.teeinblue.platform_product != blank
+    assign has_teeinblue = true
+  endif
+  assign is_branded = product.metafields.custom.is_branded.value
+  assign show_logo_tool = false
+  if has_teeinblue and is_branded != false
+    assign show_logo_tool = true
+  endif
+-%}
+
+{%- if show_logo_tool or request.design_mode -%}
 <div class="section-background logo-whitener-section__background" style="background: {{ section.settings.section_bg_color }};"></div>
 
 <div
@@ -65,6 +81,7 @@
     {%- endif -%}
   </logo-whitener>
 </div>
+{%- endif -%}
 
 {% stylesheet %}
   .logo-whitener-section {

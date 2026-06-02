@@ -12,14 +12,26 @@
 {%- enddoc -%}
 
 {%- liquid
+  # Show only on products that have the TeeInBlue customizer AND are not
+  # the explicitly non-branded duplicate. TeeInBlue tags customizable
+  # products with a teeinblue.platform_product metafield.
+  assign has_teeinblue = false
+  if product.metafields.teeinblue.platform_product != blank
+    assign has_teeinblue = true
+  endif
   assign is_branded = product.metafields.custom.is_branded.value
+  assign show_hint = false
+  if has_teeinblue and is_branded != false
+    assign show_hint = true
+  endif
+
   assign anchor = anchor | default: '#logo-whitener-tool'
   assign hint_text = hint_text | default: 'Heb je een gekleurd logo? Maak het eerst wit met onze tool.'
   assign button_label = button_label | default: 'Open de tool'
   assign icon = icon | default: '✨'
 -%}
 
-{%- if is_branded -%}
+{%- if show_hint -%}
   <div class="logo-tool-hint">
     <span class="logo-tool-hint__text">
       {%- if icon != blank -%}<span class="logo-tool-hint__icon" aria-hidden="true">{{ icon }}</span>{%- endif -%}
