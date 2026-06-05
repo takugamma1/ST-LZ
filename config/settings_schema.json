@@ -2297,11 +2297,20 @@
         "id": "logo_hint_alignment",
         "label": "Alignment",
         "options": [
-          { "value": "flex-start", "label": "Left" },
-          { "value": "center", "label": "Center" },
-          { "value": "flex-end", "label": "Right" }
+          {
+            "value": "flex-start",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "flex-end",
+            "label": "Right"
+          }
         ],
-        "default": "flex-end"
+        "default": "center"
       },
       {
         "type": "text",
