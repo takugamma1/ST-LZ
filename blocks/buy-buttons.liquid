@@ -17,6 +17,17 @@
   assign can_add_to_cart = false
   assign add_to_cart_text = 'products.product.unavailable' | t
 
+  # Account-approval gate (B2B): only customers carrying the approval tag
+  # may order. Others get a create-account / pending prompt instead.
+  assign require_approval = settings.require_approval
+  assign is_approved = true
+  if require_approval
+    assign is_approved = false
+    if customer and settings.approval_tag != blank and customer.tags contains settings.approval_tag
+      assign is_approved = true
+    endif
+  endif
+
   if variant
     if variant.quantity_rule.min > variant.inventory_quantity and inventory_managed and inventory_policy == 'deny'
       assign quantity_rule_soldout = true
@@ -39,7 +50,21 @@
   class="buy-buttons-block buy-buttons-block--{{ block.id }}"
   {{ block.shopify_attributes }}
 >
-  {%- if product != blank -%}
+  {%- if require_approval and is_approved == false -%}
+    <div class="approval-gate">
+      {%- if customer -%}
+        <p class="approval-gate__text">{{ settings.approval_pending_text }}</p>
+      {%- else -%}
+        <p class="approval-gate__text">{{ settings.approval_guest_text }}</p>
+        <a href="{{ routes.account_register_url }}" class="button approval-gate__button">
+          {{ settings.approval_button_label }}
+        </a>
+        <a href="{{ routes.account_login_url }}" class="approval-gate__login">
+          {{ settings.approval_login_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  {%- elsif product != blank -%}
     {%- assign product_form_id = 'BuyButtons-ProductForm-' | append: section.id -%}
     <product-form-component
       data-section-id="{{ section.id }}"
@@ -362,6 +387,36 @@
     --buy-button-preferred-width: 185px;
 
     width: 100%;
+  }
+
+  .approval-gate {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--gap-sm, 12px);
+    width: 100%;
+    padding: var(--padding-lg, 20px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--style-border-radius, 12px);
+    background: rgb(var(--color-foreground-rgb) / 0.04);
+  }
+
+  .approval-gate__text {
+    margin: 0;
+    font-size: var(--font-size--sm);
+    line-height: 1.45;
+    color: var(--color-foreground);
+  }
+
+  .approval-gate__button {
+    width: 100%;
+  }
+
+  .approval-gate__login {
+    font-size: var(--font-size--xs);
+    color: var(--color-foreground);
+    opacity: 0.8;
+    text-decoration: underline;
   }
 
   .product-form-buttons {

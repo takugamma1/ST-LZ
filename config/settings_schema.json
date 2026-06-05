@@ -2346,6 +2346,51 @@
         "max": 100,
         "step": 1,
         "default": 10
+      },
+      {
+        "type": "header",
+        "content": "Account approval (B2B)"
+      },
+      {
+        "type": "paragraph",
+        "content": "Restrict ordering to approved customers. STELZ adds the approval tag to the accounts they create; only tagged customers can add to cart and check out. Others see a 'create account' prompt."
+      },
+      {
+        "type": "checkbox",
+        "id": "require_approval",
+        "label": "Require an approved account to order",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "approval_tag",
+        "label": "Approval customer tag",
+        "info": "Add this tag to a customer in Shopify admin to let them order.",
+        "default": "approved"
+      },
+      {
+        "type": "text",
+        "id": "approval_guest_text",
+        "label": "Message for visitors (not logged in)",
+        "default": "Maak een account aan om te bestellen. Na goedkeuring kun je bestellen."
+      },
+      {
+        "type": "text",
+        "id": "approval_button_label",
+        "label": "Create-account button label",
+        "default": "Account aanmaken"
+      },
+      {
+        "type": "text",
+        "id": "approval_login_label",
+        "label": "Log-in link label",
+        "default": "Heb je al een account? Log in"
+      },
+      {
+        "type": "text",
+        "id": "approval_pending_text",
+        "label": "Message for logged-in, not-yet-approved customers",
+        "default": "Je account wacht op goedkeuring. We nemen snel contact met je op."
       }
     ]
   }

@@ -264,9 +264,34 @@
   if cart_moq > 1 and cart != empty and cart.item_count < cart_moq
     assign below_moq = true
   endif
+
+  # Account-approval gate: block checkout unless the customer carries the
+  # approval tag. Catches any add-to-cart path (quick add, etc.).
+  assign require_approval = settings.require_approval
+  assign is_approved = true
+  if require_approval
+    assign is_approved = false
+    if customer and settings.approval_tag != blank and customer.tags contains settings.approval_tag
+      assign is_approved = true
+    endif
+  endif
+  assign blocked = false
+  if below_moq or is_approved == false
+    assign blocked = true
+  endif
 -%}
 
-{%- if below_moq -%}
+{%- if require_approval and is_approved == false -%}
+  <div class="cart__moq-warning" role="status" aria-live="polite">
+    {%- if customer -%}
+      <strong>Je account wacht op goedkeuring.</strong>
+      <span>{{ settings.approval_pending_text }}</span>
+    {%- else -%}
+      <strong>Inloggen vereist om te bestellen.</strong>
+      <span>{{ settings.approval_guest_text }}</span>
+    {%- endif -%}
+  </div>
+{%- elsif below_moq -%}
   <div class="cart__moq-warning" role="status" aria-live="polite">
     <strong>Minimaal {{ cart_moq }} stuks per bestelling.</strong>
     <span>Je hebt nog {{ moq_remaining }} {% if moq_remaining == 1 %}stuk{% else %}stuks{% endif %} nodig om af te rekenen.</span>
@@ -274,20 +299,26 @@
 {%- endif -%}
 
 <div class="cart__ctas">
+  {%- if require_approval and is_approved == false and customer == null -%}
+    <a href="{{ routes.account_register_url }}" class="cart__checkout-button button">
+      {{ settings.approval_button_label }}
+    </a>
+  {%- else -%}
   <button
     type="submit"
     id="checkout"
     class="cart__checkout-button button"
     name="checkout"
-    {% if cart == empty or below_moq %}
+    {% if cart == empty or blocked %}
       disabled
     {% endif %}
     form="cart-form"
   >
     {{ 'content.checkout' | t }}
   </button>
+  {%- endif -%}
 
-  {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons and below_moq == false %}
+  {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons and blocked == false %}
     <div
       class="
         additional-checkout-buttons
