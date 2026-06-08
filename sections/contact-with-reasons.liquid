@@ -1,6 +1,24 @@
 
 {% liquid
   assign form_id = 'ContactWithReasons-' | append: section.id
+
+  # Field labels: use the merchant override if set, else the localized default.
+  assign name_label = 'blocks.contact_form.name' | t
+  if section.settings.name_label != blank
+    assign name_label = section.settings.name_label
+  endif
+  assign email_label = 'blocks.contact_form.email' | t
+  if section.settings.email_label != blank
+    assign email_label = section.settings.email_label
+  endif
+  assign phone_label = 'blocks.contact_form.phone' | t
+  if section.settings.phone_label != blank
+    assign phone_label = section.settings.phone_label
+  endif
+  assign message_label = 'blocks.contact_form.comment' | t
+  if section.settings.message_label != blank
+    assign message_label = section.settings.message_label
+  endif
 -%}
 
 <div class="section-background contact-section__background" style="background: {{ section.settings.section_bg_color }};"></div>
@@ -84,7 +102,7 @@
 
       <div class="contact-form-fancy__row">
         <label class="contact-form-fancy__label" for="{{ form_id }}-name">
-          <span class="contact-form-fancy__label-text">{{ 'blocks.contact_form.name' | t }}</span>
+          <span class="contact-form-fancy__label-text">{{ name_label }}</span>
           <input
             type="text"
             id="{{ form_id }}-name"
@@ -97,7 +115,7 @@
 
         <label class="contact-form-fancy__label" for="{{ form_id }}-email">
           <span class="contact-form-fancy__label-text">
-            {{ 'blocks.contact_form.email' | t }}<span class="contact-form-fancy__required" aria-hidden="true">*</span>
+            {{ email_label }}<span class="contact-form-fancy__required" aria-hidden="true">*</span>
           </span>
           <input
             type="email"
@@ -115,7 +133,7 @@
       </div>
 
       <label class="contact-form-fancy__label" for="{{ form_id }}-phone">
-        <span class="contact-form-fancy__label-text">{{ 'blocks.contact_form.phone' | t }}</span>
+        <span class="contact-form-fancy__label-text">{{ phone_label }}</span>
         <input
           type="tel"
           id="{{ form_id }}-phone"
@@ -128,7 +146,7 @@
       </label>
 
       <label class="contact-form-fancy__label" for="{{ form_id }}-body">
-        <span class="contact-form-fancy__label-text">{{ 'blocks.contact_form.comment' | t }}</span>
+        <span class="contact-form-fancy__label-text">{{ message_label }}</span>
         <textarea
           rows="6"
           id="{{ form_id }}-body"
@@ -604,6 +622,34 @@
       "id": "form_intro",
       "label": "Form intro",
       "default": "<p>Geen passend antwoord gevonden? Stuur ons een bericht en we komen er snel op terug.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Field labels"
+    },
+    {
+      "type": "text",
+      "id": "name_label",
+      "label": "Name field label",
+      "info": "Leave blank for the default."
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email field label",
+      "info": "Leave blank for the default."
+    },
+    {
+      "type": "text",
+      "id": "phone_label",
+      "label": "Phone field label",
+      "info": "Leave blank for the default."
+    },
+    {
+      "type": "text",
+      "id": "message_label",
+      "label": "Message field label",
+      "info": "Leave blank for the default."
     },
     {
       "type": "color",

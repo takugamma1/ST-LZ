@@ -27,14 +27,13 @@
         class="account-actions__sign-ins"
         data-skip-subtree-update="true"
       >
-        <script
-          src="{{ 'account-login-actions.js' | asset_url }}"
-          type="module"
-          fetchpriority="low"
-        ></script>
-        <account-login-actions class="account-actions__shop-login">
-          {{ shop | login_button }}
-        </account-login-actions>
+        {%- comment -%}
+          "Log in with Shop" button removed per request — native login only.
+          To restore, re-add the account-login-actions.js script and:
+          <account-login-actions class="account-actions__shop-login">
+            {{ shop | login_button }}
+          </account-login-actions>
+        {%- endcomment -%}
 
         <a
           href="{% if request.design_mode %}{{ routes.account_url }}{% else %}{{ routes.storefront_login_url }}{% endif %}"
