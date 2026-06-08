@@ -2368,7 +2368,7 @@
         "type": "checkbox",
         "id": "require_approval",
         "label": "Require an approved account to order",
-        "default": true
+        "default": false
       },
       {
         "type": "text",

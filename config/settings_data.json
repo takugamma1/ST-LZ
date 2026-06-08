@@ -474,7 +474,8 @@
       }
     },
     "min_order_quantity": 10,
-    "logo_hint_alignment": "center"
+    "logo_hint_alignment": "center",
+    "require_approval": false
   },
   "presets": {
     "Horizon": {
