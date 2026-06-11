@@ -1,6 +1,6 @@
 {
   "current": {
-    "logo": "shopify://shop_images/Untitled_design_76.png",
+    "logo": "shopify://shop_images/Stelz_Hard_drinks_logo_Main_1_1.webp",
     "logo_height": 100,
     "logo_height_mobile": 70,
     "favicon": "shopify://shop_images/Untitled_design_76.png",
@@ -76,8 +76,8 @@
     "logo_hint_alignment": "center",
     "logo_hint_text": "Heb je een gekleurd logo? Maak voor optimale drukkwaliteit jouw logo wit met onze tool.",
     "logo_hint_button_label": "Logo tool",
-    "min_order_quantity": 1,
-    "require_approval": false,
+    "min_order_quantity": 10,
+    "require_approval": true,
     "content_for_index": [],
     "blocks": {
       "421424240597080315": {
