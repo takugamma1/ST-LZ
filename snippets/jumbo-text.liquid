@@ -99,7 +99,11 @@
     width: 100%;
   }
 
-  footer .jumbo-text__container {
+  /* Jumbo text is purely decorative — never let it capture clicks. When it
+     overflows (overflow: visible) it can sit over neighbouring sections
+     (e.g. the footer links) and block them. pointer-events is inherited,
+     so this also makes the <jumbo-text> descendants click-transparent. */
+  .jumbo-text__container {
     pointer-events: none;
   }
 
@@ -121,6 +125,10 @@
     margin-left: var(--margin-left-nudge, 0);
     margin-right: var(--margin-right-nudge, 0);
     overflow: visible;
+    /* Decorative only — never capture clicks. With overflow: visible it can
+       overlap neighbouring sections (e.g. footer links) and block them.
+       pointer-events is inherited, so the text lines pass clicks through too. */
+    pointer-events: none;
   }
 
   jumbo-text.ready {
