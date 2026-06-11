@@ -1,50 +1,93 @@
 
-{% if shop.policies.size > 0 %}
-  <anchored-popover-component
-    class="footer-utilities__policy-list footer-utilities__text"
-    data-hover-triggered="true"
-  >
-    <button
-      class="policy-list-trigger button-unstyled"
-      popovertarget="terms-policies-popover"
-      popovertargetaction="toggle"
-      ref="trigger"
-      style="{% render 'typography-style', preset: 'custom', settings: block.settings %}"
-      {{ block.shopify_attributes }}
-    >
-      {{ 'content.terms_and_policies' | t }}
-    </button>
-    <div
-      class="terms-policies-popover color-{{ settings.popover_color_scheme }}"
-      id="terms-policies-popover"
-      popover="auto"
-      ref="popover"
-    >
-      <ul
-        class="
-          policy_list list-unstyled
-          custom-typography
-          {% if block.settings.font_size != "" %}custom-font-size{% endif %}
-        "
+{%- liquid
+  assign has_policies = false
+  if shop.policies.size > 0
+    assign has_policies = true
+  endif
+  assign has_extra_link = false
+  if block.settings.extra_link_label != blank and block.settings.extra_link != blank
+    assign has_extra_link = true
+  endif
+-%}
+
+{% if has_policies or has_extra_link %}
+  <div class="footer-utilities__policy-row">
+    {%- if has_extra_link -%}
+      <a
+        href="{{ block.settings.extra_link }}"
+        class="footer-utilities__text footer-utilities__extra-link"
+        style="{% render 'typography-style', preset: 'custom', settings: block.settings %}"
+        {{ block.shopify_attributes }}
       >
-        {%- for policy in shop.policies -%}
-          {%- if policy != blank -%}
-            <li>
-              <a
-                href="{{ policy.url }}"
-                class="footer-utilities__text"
-              >
-                {{- policy.title | escape -}}
-              </a>
-            </li>
-          {%- endif -%}
-        {%- endfor -%}
-      </ul>
-    </div>
-  </anchored-popover-component>
+        {{- block.settings.extra_link_label | escape -}}
+      </a>
+    {%- endif -%}
+
+    {% if has_policies %}
+      <anchored-popover-component
+        class="footer-utilities__policy-list footer-utilities__text"
+        data-hover-triggered="true"
+      >
+        <button
+          class="policy-list-trigger button-unstyled"
+          popovertarget="terms-policies-popover"
+          popovertargetaction="toggle"
+          ref="trigger"
+          style="{% render 'typography-style', preset: 'custom', settings: block.settings %}"
+          {{ block.shopify_attributes }}
+        >
+          {{ 'content.terms_and_policies' | t }}
+        </button>
+        <div
+          class="terms-policies-popover color-{{ settings.popover_color_scheme }}"
+          id="terms-policies-popover"
+          popover="auto"
+          ref="popover"
+        >
+          <ul
+            class="
+              policy_list list-unstyled
+              custom-typography
+              {% if block.settings.font_size != "" %}custom-font-size{% endif %}
+            "
+          >
+            {%- for policy in shop.policies -%}
+              {%- if policy != blank -%}
+                <li>
+                  <a
+                    href="{{ policy.url }}"
+                    class="footer-utilities__text"
+                  >
+                    {{- policy.title | escape -}}
+                  </a>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      </anchored-popover-component>
+    {% endif %}
+  </div>
 {% endif %}
 
 {% stylesheet %}
+  .footer-utilities__policy-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .footer-utilities__extra-link {
+    font-size: var(--font-size, 0.75rem);
+    text-transform: var(--text-transform, none);
+    text-decoration: none;
+  }
+
+  .footer-utilities__extra-link:hover {
+    text-decoration: underline;
+  }
+
   .policy-list-trigger {
     anchor-name: --terms-policies-trigger;
     cursor: pointer;
@@ -150,6 +193,17 @@
     {
       "type": "paragraph",
       "content": "t:content.manage_policies"
+    },
+    {
+      "type": "text",
+      "id": "extra_link_label",
+      "label": "Extra link label",
+      "info": "Optional link shown next to the policies (e.g. a page like Bedrijfsinformatie)."
+    },
+    {
+      "type": "url",
+      "id": "extra_link",
+      "label": "Extra link"
     },
     {
       "type": "select",

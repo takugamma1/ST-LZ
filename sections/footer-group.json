@@ -39,7 +39,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p><strong>Questions?<br/></strong><br/><strong>Customer service:</strong><br/><a href=\"mailto:hello@drinkstelz.com\">hello@drinkstelz.com</a></p><p><strong>Sales:</strong><br/><a href=\"mailto:sales@drinkstelz.com\">sales@drinkstelz.com</a></p>",
+            "text": "",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -68,8 +68,8 @@
             "custom_width": 100,
             "inherit_color_scheme": true,
             "color_scheme": "",
-            "heading": "RECEIVE OUR EMAILS",
-            "heading_preset": "h6",
+            "heading": "Ontvang onze emails",
+            "heading_preset": "h4",
             "border_style": "all",
             "border_width": 1.5,
             "border_radius": 100,
@@ -176,7 +176,9 @@
           "type": "footer-policy-list",
           "settings": {
             "font_size": "0.75rem",
-            "case": "none"
+            "case": "none",
+            "extra_link_label": "Bedrijfsinformatie",
+            "extra_link": "/pages/bedrijfsinformatie"
           },
           "blocks": {}
         }
