@@ -1,0 +1,473 @@
+
+<div class="section-background fanned-gallery-section__bg" style="background: {{ section.settings.bg_color }};"></div>
+
+<div
+  class="
+    fanned-gallery-section
+    section
+    section--{{ section.settings.section_width }}
+    spacing-style
+  "
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    --fg-fg: {{ section.settings.text_color }};
+    --fg-card-ar: {{ section.settings.card_aspect }};
+    --fg-card-radius: {{ section.settings.card_radius }}px;
+  "
+>
+  <div class="fanned-gallery-section__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="fanned-gallery-section__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="fanned-gallery-section__subheading">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <fanned-gallery
+        class="fanned-gallery"
+        data-angle="{{ section.settings.fan_angle }}"
+        data-autoplay="{% if section.settings.autoplay %}{{ section.settings.autoplay_speed }}{% else %}0{% endif %}"
+        style="--fg-card-w: {{ section.settings.card_width }}px; --fg-card-w-mobile: {{ section.settings.card_width_mobile }}px;"
+      >
+        <div class="fanned-gallery__deck" data-not-ready>
+          {%- for block in section.blocks -%}
+            {%- assign img = block.settings.image -%}
+            <div class="fanned-gallery__card" data-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+              {%- if block.settings.link != blank -%}
+                <a href="{{ block.settings.link }}" class="fanned-gallery__card-inner" aria-label="{{ block.settings.caption | default: 'Gallery image' | escape }}">
+              {%- else -%}
+                <div class="fanned-gallery__card-inner">
+              {%- endif -%}
+                {%- if img != blank -%}
+                  {{
+                    img
+                    | image_url: width: 900
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '300, 450, 600, 900',
+                      sizes: '(min-width: 750px) 230px, 60vw',
+                      alt: block.settings.caption | default: img.alt
+                  }}
+                {%- else -%}
+                  <div class="fanned-gallery__placeholder">{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+                {%- endif -%}
+                {%- if block.settings.caption != blank -%}
+                  <span class="fanned-gallery__caption">{{ block.settings.caption }}</span>
+                {%- endif -%}
+              {%- if block.settings.link != blank -%}
+                </a>
+              {%- else -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </fanned-gallery>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .fanned-gallery-section {
+    position: relative;
+    color: var(--fg-fg, #ffffff);
+    container-type: inline-size;
+    overflow: hidden;
+  }
+
+  .fanned-gallery-section__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .fanned-gallery-section__heading {
+    margin: 0;
+    text-align: center;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    font-size: clamp(1.75rem, 6cqi, 3.5rem);
+    color: var(--fg-fg, #ffffff);
+  }
+
+  .fanned-gallery-section__subheading {
+    margin: 0;
+    text-align: center;
+    opacity: 0.85;
+    font-size: 1rem;
+    max-width: 60ch;
+  }
+
+  .fanned-gallery {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+  }
+
+  .fanned-gallery__deck {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    min-height: var(--fg-deck-h, 440px);
+  }
+
+  .fanned-gallery__card {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: var(--fg-card-w, 230px);
+    transform-origin: bottom center;
+  }
+
+  @media screen and (max-width: 749px) {
+    .fanned-gallery__card {
+      width: var(--fg-card-w-mobile, 165px);
+    }
+  }
+
+  .fanned-gallery__card {
+    /* JS sets --tx/--ty/--rot/--s/--z; base state (pre-JS) = stacked & flat */
+    transform: translate(calc(-50% + var(--tx, 0px)), var(--ty, 0px)) rotate(var(--rot, 0deg)) scale(var(--s, 1));
+    z-index: var(--z, 1);
+    transition: transform 0.55s cubic-bezier(0.22, 0.7, 0.2, 1), filter 0.35s ease;
+    cursor: pointer;
+  }
+
+  /* Entrance: before JS marks ready, cards sit stacked & slightly down/faded */
+  .fanned-gallery__deck[data-not-ready] .fanned-gallery__card {
+    transform: translate(-50%, 40px) scale(0.92);
+    opacity: 0;
+  }
+
+  .fanned-gallery__card-inner {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--fg-card-ar, 3 / 4);
+    border-radius: var(--fg-card-radius, 20px);
+    overflow: hidden;
+    background: rgb(0 0 0 / 0.08);
+    box-shadow: 0 20px 45px rgb(0 0 0 / 0.28), 0 2px 8px rgb(0 0 0 / 0.18);
+    text-decoration: none;
+  }
+
+  .fanned-gallery__card img,
+  .fanned-gallery__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .fanned-gallery__placeholder { opacity: 0.25; }
+
+  .fanned-gallery__caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 28px 14px 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.55), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Non-active cards dim slightly so the front one stands out */
+  .fanned-gallery__card:not(.is-active) .fanned-gallery__card-inner {
+    filter: brightness(0.82) saturate(0.95);
+    transition: filter 0.4s ease;
+  }
+  .fanned-gallery__card.is-active .fanned-gallery__card-inner {
+    box-shadow: 0 30px 60px rgb(0 0 0 / 0.4), 0 3px 10px rgb(0 0 0 / 0.25);
+  }
+  .fanned-gallery__card.is-active .fanned-gallery__caption { opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fanned-gallery__card { transition: none; }
+    .fanned-gallery__deck[data-not-ready] .fanned-gallery__card { opacity: 1; transform: translate(calc(-50% + var(--tx,0px)), var(--ty,0px)) rotate(var(--rot,0deg)); }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  if (!customElements.get('fanned-gallery')) {
+    class FannedGallery extends HTMLElement {
+      connectedCallback() {
+        this.deck = this.querySelector('.fanned-gallery__deck');
+        this.cards = Array.from(this.querySelectorAll('.fanned-gallery__card'));
+        this.count = this.cards.length;
+        if (!this.count) return;
+        this.angle = parseFloat(this.dataset.angle) || 8;
+        this.autoplay = parseInt(this.dataset.autoplay, 10) || 0;
+        this.active = Math.floor((this.count - 1) / 2);
+        this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        this.cards.forEach((card, i) => {
+          card.addEventListener('mouseenter', () => this.activate(i));
+          card.addEventListener('focusin', () => this.activate(i));
+          card.addEventListener('click', () => this.activate(i));
+        });
+
+        this.addEventListener('pointerenter', () => this.stop());
+        this.addEventListener('pointerleave', () => this.play());
+
+        this.#ro = new ResizeObserver(() => this.layout());
+        this.#ro.observe(this);
+
+        // Reveal once visible, then fan out + start the cycle.
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              this.layout();
+              requestAnimationFrame(() => this.deck.removeAttribute('data-not-ready'));
+              this.play();
+              io.disconnect();
+            }
+          });
+        }, { threshold: 0.2 });
+        io.observe(this);
+
+        this.layout();
+      }
+
+      disconnectedCallback() { this.stop(); this.#ro && this.#ro.disconnect(); }
+
+      #ro;
+      #timer;
+
+      layout() {
+        const cardW = this.cards[0].offsetWidth || 200;
+        const avail = this.deck.clientWidth || this.offsetWidth || 1000;
+        const n = this.count;
+        const center = (n - 1) / 2;
+
+        // Spacing: overlap cards, but never exceed the container width.
+        const maxSpacing = n > 1 ? (avail - cardW) / (n - 1) : 0;
+        const spacing = Math.max(0, Math.min(cardW * 0.58, maxSpacing));
+
+        // Cap the total fan angle so big decks don't over-rotate.
+        const totalAngle = Math.min(this.angle * (n - 1), 54);
+        const perCard = n > 1 ? totalAngle / (n - 1) : 0;
+        const arc = Math.min(cardW * 0.12, 26);
+
+        this.base = this.cards.map((_, i) => {
+          const off = i - center;
+          return {
+            tx: off * spacing,
+            ty: off * off * (arc / Math.max(1, center * center || 1)),
+            rot: off * perCard,
+            z: 100 - Math.round(Math.abs(off) * 10),
+          };
+        });
+
+        // Deck height = card height + lift + arc room.
+        const cardH = this.cards[0].querySelector('.fanned-gallery__card-inner')?.offsetHeight || cardW * 1.33;
+        this.deck.style.setProperty('--fg-deck-h', Math.round(cardH + arc + 56) + 'px');
+
+        this.render();
+      }
+
+      render() {
+        if (!this.base) return;
+        this.cards.forEach((card, i) => {
+          const b = this.base[i];
+          const isActive = i === this.active;
+          card.classList.toggle('is-active', isActive);
+          const tx = b.tx;
+          const ty = isActive ? -28 : b.ty;
+          const rot = isActive ? 0 : b.rot;
+          const s = isActive ? 1.08 : 1;
+          const z = isActive ? 1000 : b.z;
+          card.style.setProperty('--tx', tx + 'px');
+          card.style.setProperty('--ty', ty + 'px');
+          card.style.setProperty('--rot', rot + 'deg');
+          card.style.setProperty('--s', s);
+          card.style.setProperty('--z', z);
+        });
+      }
+
+      activate(i) {
+        this.active = i;
+        this.render();
+        // Pause autoplay briefly after manual interaction
+        this.stop();
+        clearTimeout(this.#resume);
+        this.#resume = setTimeout(() => this.play(), 4000);
+      }
+      #resume;
+
+      play() {
+        if (!this.autoplay || this.reduced) return;
+        this.stop();
+        this.#timer = setInterval(() => {
+          this.active = (this.active + 1) % this.count;
+          this.render();
+        }, this.autoplay);
+      }
+
+      stop() { clearInterval(this.#timer); }
+    }
+    customElements.define('fanned-gallery', FannedGallery);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Fanned gallery",
+  "tag": "section",
+  "class": "fanned-gallery-section-wrapper section-wrapper",
+  "max_blocks": 12,
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Cards"
+    },
+    {
+      "type": "select",
+      "id": "card_aspect",
+      "label": "Card shape",
+      "options": [
+        { "value": "3 / 4", "label": "Portrait (3:4)" },
+        { "value": "2 / 3", "label": "Tall (2:3)" },
+        { "value": "4 / 5", "label": "Soft portrait (4:5)" },
+        { "value": "1 / 1", "label": "Square" }
+      ],
+      "default": "3 / 4"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0, "max": 40, "step": 1, "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_width",
+      "label": "Card width (desktop)",
+      "min": 140, "max": 320, "step": 5, "unit": "px",
+      "default": 230
+    },
+    {
+      "type": "range",
+      "id": "card_width_mobile",
+      "label": "Card width (mobile)",
+      "min": 110, "max": 240, "step": 5, "unit": "px",
+      "default": 165
+    },
+    {
+      "type": "header",
+      "content": "Fan & animation"
+    },
+    {
+      "type": "range",
+      "id": "fan_angle",
+      "label": "Fan angle per card",
+      "min": 0, "max": 14, "step": 1, "unit": "°",
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-cycle the front card",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Auto-cycle speed",
+      "min": 1500, "max": 6000, "step": 250, "unit": "ms",
+      "default": 3000
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#0c1a3a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Heading / text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Image card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "caption", "label": "Caption (optional)" },
+        { "type": "url", "id": "link", "label": "Link (optional)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fanned gallery",
+      "category": "Gallery",
+      "blocks": [
+        { "type": "card" }, { "type": "card" }, { "type": "card" },
+        { "type": "card" }, { "type": "card" }
+      ]
+    }
+  ]
+}
+{% endschema %}
